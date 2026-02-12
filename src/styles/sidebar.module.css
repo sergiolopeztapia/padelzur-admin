@@ -1,0 +1,28 @@
+.sidebar{
+  width: 260px;
+  min-width: 220px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 22px;
+  border-radius: 12px;
+  color: #eaf2ff;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.brand{ display:flex; gap:12px; align-items:center }
+.logo{ font-size:28px }
+.brand-text h2{ margin:0; font-size:1.05rem }
+.brand-text span{ color: rgba(230,238,248,0.65); font-size:0.85rem }
+
+.nav ul{ list-style:none; padding:0; margin:8px 0; display:flex; flex-direction:column; gap:8px }
+.nav li{ padding:10px 12px; border-radius:10px; cursor:pointer; color:rgba(230,238,248,0.9) }
+.nav li.active{ background: linear-gradient(90deg,#7c3aed,#06b6d4); box-shadow: 0 8px 20px rgba(124,58,237,0.12); color:#fff }
+.nav li:hover{ background: rgba(255,255,255,0.02) }
+
+.sidebar-footer{ margin-top:auto; color: rgba(230,238,248,0.55); font-size:0.8rem }
+
+@media (max-width:720px){
+  .sidebar{ width:100%; min-width: auto; border-radius:10px; padding:12px }
+}
