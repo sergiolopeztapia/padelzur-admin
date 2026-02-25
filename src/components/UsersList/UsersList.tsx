@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
-import { useSupabase } from '../hooks/useSupabase'
-import type { Clubes } from '../types/Clubes'
+import { useSupabase } from '@/hooks/useSupabase'
+import { Button } from '@/components/Button/Button'
+import type { Clubes } from '@/types/Clubes'
 
 export function UsersList() {
   const { data: users, loading, error, fetchData, insert, update, delete: deleteUser } = useSupabase<Clubes>({
@@ -35,14 +36,14 @@ export function UsersList() {
   return (
     <div>
       <h1>Clubes</h1>
-      <button onClick={handleAddUser}>Agregar Club</button>
+      <Button variant="primary" onClick={handleAddUser}>Agregar Club</Button>
 
       <ul>
         {users?.map((club) => (
           <li key={club.id}>
             <p>{club.nombre} - {club.ciudad}</p>
-            <button onClick={() => handleUpdateUser(club.id)}>Editar</button>
-            <button onClick={() => handleDeleteUser(club.id)}>Eliminar</button>
+            <Button variant="edit" onClick={() => handleUpdateUser(club.id)}>Editar</Button>
+            <Button variant="danger" onClick={() => handleDeleteUser(club.id)}>Eliminar</Button>
           </li>
         ))}
       </ul>

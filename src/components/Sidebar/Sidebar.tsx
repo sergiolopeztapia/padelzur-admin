@@ -1,4 +1,4 @@
-import styles from '../styles/sidebar.module.css'
+import styles from '@/styles/sidebar.module.css';
 
 export function Sidebar() {
   return (
@@ -6,8 +6,8 @@ export function Sidebar() {
       <div className={styles.brand}>
         <div className={styles.logo}>🏸</div>
         <div className={styles['brand-text']}>
-          <h2>Padel Admin</h2>
-          <span>Dashboard</span>
+                            <h2>Padel Admin</h2>
+                            <span>Dashboard</span>
         </div>
       </div>
 

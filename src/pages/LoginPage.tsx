@@ -1,7 +1,80 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
-import styles from '../styles/dashboard.module.css'
-import type { SupabaseSession } from '../types/Session'
+import { Mail, Lock } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
+import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle'
+import { InputField } from '@/components/InputField/InputField'
+import { Button } from '@/components/Button/Button'
+import { Logo } from '@/components/Logo/Logo'
+import styles from '@/styles/dashboard.module.css'
+import type { SupabaseSession } from '@/types/Session'
+
+interface LoginFormProps {
+  email: string
+  password: string
+  loading: boolean
+  error: string | null
+  onEmailChange: (value: string) => void
+  onPasswordChange: (value: string) => void
+  onSubmit: (e: React.FormEvent) => void
+  onAutofill: () => void
+}
+
+function LoginForm({
+  email,
+  password,
+  loading,
+  error,
+  onEmailChange,
+  onPasswordChange,
+  onSubmit,
+  onAutofill,
+}: LoginFormProps) {
+  return (
+    <form onSubmit={onSubmit} style={{ marginTop: 24 }}>
+      <div style={{ marginBottom: 16 }}>
+        <InputField
+          type="email"
+          placeholder="email@example.com"
+          value={email}
+          onChange={(e) => onEmailChange(e.target.value)}
+          leftIcon={<Mail size={18} />}
+        />
+      </div>
+
+      <div style={{ marginBottom: 18 }}>
+        <InputField
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => onPasswordChange(e.target.value)}
+          leftIcon={<Lock size={18} />}
+        />
+      </div>
+
+      <div className={styles['form-actions']}>
+        <Button variant="primary" type="submit" disabled={loading}>
+          {loading ? 'Entrando...' : 'Entrar'}
+        </Button>
+        <Button variant="secondary" iconName="Plus" onClick={onAutofill} />
+      </div>
+
+      {error && (
+        <div
+          style={{
+            color: '#ffb4b4',
+            marginTop: 16,
+            padding: '12px 14px',
+            borderRadius: '8px',
+            background: 'rgba(255, 180, 180, 0.1)',
+            fontSize: '0.9rem',
+          }}
+        >
+          {error}
+        </div>
+      )}
+    </form>
+  )
+}
 
 export function LoginPage() {
   const [email, setEmail] = useState('')
@@ -46,43 +119,51 @@ export function LoginPage() {
   }
 
   return (
-    <div className={styles['dashboard-container']}>
-      <div className={styles.card} style={{ maxWidth: 520, margin: '40px auto' }}>
-        <h2 style={{ marginTop: 0 }}>Iniciar sesión</h2>
-        <p style={{ color: 'var(--muted)' }}>Usa tus credenciales de Supabase para entrar</p>
+    <div 
+      className={styles['dashboard-container']}
+      style={{
+        background: 'linear-gradient(135deg, #C8E600 0%, #7FBA00 50%, #006633 100%)',
+        backgroundSize: '400% 400%',
+        animation: 'gradientShift 15s ease infinite'
+      }}
+    >
+      <style>{`
+        @keyframes gradientShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+      `}</style>
+      <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 1000 }}>
+        <ThemeToggle />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '24px',
+        }}
+      >
+        <div className={styles.card} style={{ maxWidth: 250, boxShadow: '0 8px 32px rgba(0, 102, 51, 0.3)' }}>
+          <Logo />
 
-        <form onSubmit={handleLogin} style={{ marginTop: 16 }}>
-          <div style={{ marginBottom: 12 }}>
-            <input
-              className={styles['form-input']}
-              type="email"
-              placeholder="email@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-
-          <div style={{ marginBottom: 12 }}>
-            <input
-              className={styles['form-input']}
-              type="password"
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div className={styles['form-actions']}>
-            <button className={`${styles.btn} ${styles['btn-primary']}`} type="submit" disabled={loading}>
-              {loading ? 'Entrando...' : 'Entrar'}
-            </button>
-            <button type="button" className={`${styles.btn} ${styles['btn-secondary']}`} onClick={() => { setEmail('test@example.com'); setPassword('password') }}>
-              Autocompletar
-            </button>
-          </div>
-
-          {error && <div style={{ color: '#ffb4b4', marginTop: 12 }}>{error}</div>}
-        </form>
+          <LoginForm
+            email={email}
+            password={password}
+            loading={loading}
+            error={error}
+            onEmailChange={setEmail}
+            onPasswordChange={setPassword}
+            onSubmit={handleLogin}
+            onAutofill={() => {
+              setEmail('sergiolopeztapia@gmail.com')
+              setPassword('123')
+            }}
+          />
+        </div>
       </div>
     </div>
   )

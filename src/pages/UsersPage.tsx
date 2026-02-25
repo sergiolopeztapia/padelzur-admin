@@ -1,4 +1,4 @@
-import { ClubsDashboard } from '../components/ClubsDashboard'
+import { ClubsDashboard } from '@/components/ClubsDashboard/ClubsDashboard'
 
 export function UsersPage() {
     return <ClubsDashboard />

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
-import type { SupabaseSession } from '../types/Session'
+import { supabase } from '@/lib/supabase'
+import type { SupabaseSession } from '@/types/Session'
 
 interface UseSupabaseOptions {
   table: string
@@ -68,6 +68,7 @@ export function useSupabase<T>({ table }: UseSupabaseOptions): UseSupabaseResult
       }
     } catch (err) {
       // ignore malformed session
+      console.error('Error restoring session from storage:', err)
     }
   }, [])
 
