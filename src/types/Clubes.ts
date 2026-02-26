@@ -1,5 +1,5 @@
 export interface Clubes {
-	id: number;
+	id?: number;
 	nombre: string;
 	ciudad: string;
 }

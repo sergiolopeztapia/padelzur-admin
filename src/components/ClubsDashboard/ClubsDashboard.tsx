@@ -46,7 +46,6 @@ export function ClubsDashboard() {
 		if (!newClub.nombre || !newClub.ciudad) return;
 		await insert([
 			{
-				id: 0,
 				nombre: newClub.nombre,
 				ciudad: newClub.ciudad,
 			},
@@ -57,7 +56,7 @@ export function ClubsDashboard() {
 	};
 
 	const startEditing = (club: Clubes) => {
-		setEditingId(club.id);
+		setEditingId(club.id ?? null);
 		setEditingData(club);
 	};
 
