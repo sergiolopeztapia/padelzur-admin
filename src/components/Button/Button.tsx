@@ -17,7 +17,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   iconSize?: number
 }
 
-export function Button({
+export function Button ({
   variant = 'primary',
   size = 'default',
   children,
@@ -31,16 +31,16 @@ export function Button({
   const variantClass = styles[`btn-${variant}`]
   const sizeClass = size === 'sm' ? styles['btn-sm'] : ''
   const Icon = iconName ? (LucideIcons[iconName] as LucideIcon | undefined) : undefined
-  
+
   const classes = [
     styles.btn,
     variantClass,
     sizeClass,
-    className,
+    className
   ].filter(Boolean).join(' ')
 
   return (
-    <button 
+    <button
       className={classes}
       style={{ width: fullWidth ? '100%' : undefined }}
       {...props}

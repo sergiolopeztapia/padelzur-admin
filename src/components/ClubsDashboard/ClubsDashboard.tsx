@@ -8,9 +8,9 @@ import { Button } from '@/components/Button/Button'
 import { Popup } from '@/components/Popup/Popup'
 import { Logo } from '../Logo/Logo'
 
-export function ClubsDashboard() {
+export function ClubsDashboard () {
   const { data: clubes, loading, error, fetchData, insert, update, delete: deleteClub } = useSupabase<Clubes>({
-    table: 'clubes',
+    table: 'clubes'
   })
 
   const [editingId, setEditingId] = useState<number | null>(null)
@@ -40,8 +40,8 @@ export function ClubsDashboard() {
       {
         id: 0,
         nombre: newClub.nombre,
-        ciudad: newClub.ciudad,
-      },
+        ciudad: newClub.ciudad
+      }
     ])
     setNewClub({ nombre: '', ciudad: '' })
     setShowForm(false)
@@ -168,10 +168,12 @@ export function ClubsDashboard() {
           </Popup>
 
           <div className={styles['clubs-grid']}>
-            {clubes && clubes.length > 0 ? (
-              clubes.map((club) => (
+            {clubes && clubes.length > 0
+              ? (
+                  clubes.map((club) => (
                 <div key={club.id} className={styles['club-card']}>
-                  {editingId === club.id ? (
+                  {editingId === club.id
+                    ? (
                     <div className={styles['edit-form']}>
                       <input
                         type="text"
@@ -194,7 +196,8 @@ export function ClubsDashboard() {
                         </Button>
                       </div>
                     </div>
-                  ) : (
+                      )
+                    : (
                     <>
                       <div className={styles['club-info']}>
                         <h3 className={styles['club-name']}>{club.nombre}</h3>
@@ -218,14 +221,15 @@ export function ClubsDashboard() {
                         </Button>
                       </div>
                     </>
-                  )}
+                      )}
                 </div>
-              ))
-            ) : (
+                  ))
+                )
+              : (
               <div className={styles['empty-state']}>
                 <p>No hay clubes registrados</p>
               </div>
-            )}
+                )}
           </div>
 
           <div className={styles.stats}>

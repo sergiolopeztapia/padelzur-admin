@@ -9,7 +9,7 @@ interface PopupProps {
   children: ReactNode
 }
 
-export function Popup({ isOpen, title, onClose, children }: PopupProps) {
+export function Popup ({ isOpen, title, onClose, children }: PopupProps) {
   if (!isOpen) return null
 
   return (

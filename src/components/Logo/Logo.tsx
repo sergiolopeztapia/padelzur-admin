@@ -5,7 +5,7 @@ interface LogoProps {
   size?: number
 }
 
-export function Logo({ size = 50 }: LogoProps) {
+export function Logo ({ size = 50 }: LogoProps) {
   return (
     <h1
       className={styles.logo}

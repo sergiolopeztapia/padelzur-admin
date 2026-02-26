@@ -19,15 +19,15 @@ interface UseSupabaseResult<T> {
 /**
  * Custom React hook for interacting with Supabase
  * Provides methods to fetch, insert, update, and delete records
- * 
+ *
  * @example
  * const { data, loading, error, fetchData } = useSupabase<User>({ table: 'users' })
- * 
+ *
  * useEffect(() => {
  *   fetchData()
  * }, [fetchData])
  */
-export function useSupabase<T>({ table }: UseSupabaseOptions): UseSupabaseResult<T> {
+export function useSupabase<T> ({ table }: UseSupabaseOptions): UseSupabaseResult<T> {
   const [data, setData] = useState<T[] | null>(null)
   const [error, setError] = useState<Error | null>(null)
   const [loading, setLoading] = useState(false)
@@ -61,9 +61,9 @@ export function useSupabase<T>({ table }: UseSupabaseOptions): UseSupabaseResult
       // supabase-js v2 exposes auth.setSession
       if (parsed?.access_token) {
         // ignore return value
-        ;(supabase.auth as any).setSession({
+        ;(supabase.auth as unknown as { setSession: (session: { access_token: string; refresh_token?: string }) => Promise<void> }).setSession({
           access_token: parsed.access_token,
-          refresh_token: parsed.refresh_token,
+          refresh_token: parsed.refresh_token
         })
       }
     } catch (err) {
@@ -144,6 +144,6 @@ export function useSupabase<T>({ table }: UseSupabaseOptions): UseSupabaseResult
     fetchData,
     insert,
     update,
-    delete: delete_,
+    delete: delete_
   }
 }

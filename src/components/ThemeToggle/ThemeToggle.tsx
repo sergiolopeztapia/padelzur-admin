@@ -1,7 +1,7 @@
 import { useTheme } from '@/hooks/useTheme'
 import { Button } from '@/components/Button/Button'
 
-export function ThemeToggle() {
+export function ThemeToggle () {
   const { theme, toggleTheme } = useTheme()
 
   return (

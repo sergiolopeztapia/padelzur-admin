@@ -14,7 +14,7 @@ interface InputFieldProps {
   rightIcon?: ReactNode
 }
 
-export function InputField({
+export function InputField ({
   type = 'text',
   placeholder,
   value,
@@ -24,7 +24,7 @@ export function InputField({
   autoComplete,
   name,
   leftIcon,
-  rightIcon,
+  rightIcon
 }: InputFieldProps) {
   const hasIcons = leftIcon || rightIcon
 
@@ -49,7 +49,7 @@ export function InputField({
       style={{
         position: 'relative',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'center'
       }}
     >
       {leftIcon && (
@@ -62,7 +62,7 @@ export function InputField({
             justifyContent: 'center',
             color: 'var(--muted)',
             pointerEvents: 'none',
-            zIndex: 1,
+            zIndex: 1
           }}
         >
           {leftIcon}
@@ -80,7 +80,7 @@ export function InputField({
         name={name}
         style={{
           paddingLeft: leftIcon ? '40px' : undefined,
-          paddingRight: rightIcon ? '40px' : undefined,
+          paddingRight: rightIcon ? '40px' : undefined
         }}
       />
       {rightIcon && (
@@ -92,7 +92,7 @@ export function InputField({
             alignItems: 'center',
             justifyContent: 'center',
             color: 'var(--muted)',
-            pointerEvents: 'none',
+            pointerEvents: 'none'
           }}
         >
           {rightIcon}

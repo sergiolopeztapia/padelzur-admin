@@ -6,7 +6,7 @@ export interface SupabaseSession {
   user: {
     id: string
     email?: string | null
-    app_metadata?: Record<string, any>
-    user_metadata?: Record<string, any>
+    app_metadata?: Record<string, unknown>
+    user_metadata?: Record<string, unknown>
   }
 }
