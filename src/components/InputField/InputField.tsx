@@ -1,103 +1,100 @@
-import styles from '@/styles/dashboard.module.css'
-import type { ReactNode } from 'react'
+import styles from '@/styles/dashboard.module.css';
+import type { ReactNode } from 'react';
 
 interface InputFieldProps {
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'
-  placeholder?: string
-  value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  disabled?: boolean
-  required?: boolean
-  autoComplete?: string
-  name?: string
-  leftIcon?: ReactNode
-  rightIcon?: ReactNode
+	type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
+	placeholder?: string;
+	value: string;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	disabled?: boolean;
+	required?: boolean;
+	autoComplete?: string;
+	name?: string;
+	leftIcon?: ReactNode;
+	rightIcon?: ReactNode;
 }
 
-export function InputField ({
-  type = 'text',
-  placeholder,
-  value,
-  onChange,
-  disabled = false,
-  required = false,
-  autoComplete,
-  name,
-  leftIcon,
-  rightIcon
+export function InputField({
+	type = 'text',
+	placeholder,
+	value,
+	onChange,
+	disabled = false,
+	required = false,
+	autoComplete,
+	name,
+	leftIcon,
+	rightIcon,
 }: InputFieldProps) {
-  const hasIcons = leftIcon || rightIcon
+	const hasIcons = leftIcon || rightIcon;
 
-  if (!hasIcons) {
-    return (
-      <input
-        className={styles['form-input']}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        required={required}
-        autoComplete={autoComplete}
-        name={name}
-      />
-    )
-  }
+	if (!hasIcons) {
+		return (
+			<input
+				className={styles['form-input']}
+				type={type}
+				placeholder={placeholder}
+				value={value}
+				onChange={onChange}
+				disabled={disabled}
+				required={required}
+				autoComplete={autoComplete}
+				name={name}
+			/>
+		);
+	}
 
-  return (
-    <div
-      style={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center'
-      }}
-    >
-      {leftIcon && (
-        <div
-          style={{
-            position: 'absolute',
-            left: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--muted)',
-            pointerEvents: 'none',
-            zIndex: 1
-          }}
-        >
-          {leftIcon}
-        </div>
-      )}
-      <input
-        className={styles['form-input']}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-        disabled={disabled}
-        required={required}
-        autoComplete={autoComplete}
-        name={name}
-        style={{
-          paddingLeft: leftIcon ? '40px' : undefined,
-          paddingRight: rightIcon ? '40px' : undefined
-        }}
-      />
-      {rightIcon && (
-        <div
-          style={{
-            position: 'absolute',
-            right: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--muted)',
-            pointerEvents: 'none'
-          }}
-        >
-          {rightIcon}
-        </div>
-      )}
-    </div>
-  )
+	return (
+		<div
+			style={{
+				position: 'relative',
+				display: 'flex',
+				alignItems: 'center',
+			}}>
+			{leftIcon && (
+				<div
+					style={{
+						position: 'absolute',
+						left: '12px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						color: 'var(--muted)',
+						pointerEvents: 'none',
+						zIndex: 1,
+					}}>
+					{leftIcon}
+				</div>
+			)}
+			<input
+				className={styles['form-input']}
+				type={type}
+				placeholder={placeholder}
+				value={value}
+				onChange={onChange}
+				disabled={disabled}
+				required={required}
+				autoComplete={autoComplete}
+				name={name}
+				style={{
+					paddingLeft: leftIcon ? '40px' : undefined,
+					paddingRight: rightIcon ? '40px' : undefined,
+				}}
+			/>
+			{rightIcon && (
+				<div
+					style={{
+						position: 'absolute',
+						right: '12px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						color: 'var(--muted)',
+						pointerEvents: 'none',
+					}}>
+					{rightIcon}
+				</div>
+			)}
+		</div>
+	);
 }
