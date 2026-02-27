@@ -3,7 +3,6 @@ import { supabase } from '@/lib/supabase';
 import { useSupabase } from '@/hooks/useSupabase';
 import type { Club } from '@/types/Club.types';
 import styles from '@/styles/dashboard.module.css';
-import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { Button } from '@/components/Button/Button';
 import { Popup } from '@/components/Popup/Popup';
 import { Logo } from '../Logo/Logo';
@@ -114,7 +113,6 @@ export function ClubsDashboard() {
 					<Logo />
 				</div>
 				<div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-					<ThemeToggle />
 					<Button variant='logout' onClick={handleLogout} title='Cerrar sesión'>
 						Cerrar sesión
 					</Button>

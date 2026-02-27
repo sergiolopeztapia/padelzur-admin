@@ -1,30 +1,27 @@
-.dashboardContainer {
+.container {
 	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 24px;
-}
-
-.card {
+	height: 100%;
 	display: grid;
-	grid-template-rows: 1fr 2fr;
-	max-width: 250px;
-	padding: 2rem;
-	border-radius: 0.5rem;
-	background: var(--bg-secondary);
+	place-items: center;
 }
 
-.inputField {
+.login {
+	display: grid;
+	grid-template-rows: fit-content(100%) auto;
+	width: 100%;
+	max-width: 400px;
+}
+
+.input {
+	width: 100%;
 	margin-bottom: 1rem;
 }
 
-.formActions {
+.actions {
 	display: grid;
 	width: 100%;
 	gap: 1rem;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 3fr 1fr;
 }
 
 .errorMessage {

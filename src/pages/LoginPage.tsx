@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Mail, Lock } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { InputField } from '@/components/InputField/InputField';
 import { Button } from '@/components/Button/Button';
 import { Logo } from '@/components/Logo/Logo';
@@ -9,6 +8,7 @@ import type { SupabaseSession } from '@/types/Session.types';
 import useSessionStore from '@/stores/useSessionStore';
 import styles from './LoginPage.module.css';
 import type { LoginFormProps } from './LoginPage.types';
+import toast from 'react-hot-toast';
 
 function LoginForm({
 	email,
@@ -22,7 +22,7 @@ function LoginForm({
 }: LoginFormProps) {
 	return (
 		<form onSubmit={onSubmit}>
-			<div className={styles.inputField}>
+			<div className={styles.input}>
 				<InputField
 					type='email'
 					placeholder='email@example.com'
@@ -32,7 +32,7 @@ function LoginForm({
 				/>
 			</div>
 
-			<div className={styles.inputField}>
+			<div className={styles.input}>
 				<InputField
 					type='password'
 					placeholder='Contraseña'
@@ -42,26 +42,12 @@ function LoginForm({
 				/>
 			</div>
 
-			<div className={styles.formActions}>
+			<div className={styles.actions}>
 				<Button variant='primary' type='submit' disabled={loading}>
 					{loading ? 'Entrando...' : 'Entrar'}
 				</Button>
 				<Button variant='secondary' iconName='Plus' onClick={onAutofill} />
 			</div>
-
-			{error && (
-				<div
-					style={{
-						color: '#ffb4b4',
-						marginTop: 16,
-						padding: '12px 14px',
-						borderRadius: '8px',
-						background: 'rgba(255, 180, 180, 0.1)',
-						fontSize: '0.9rem',
-					}}>
-					{error}
-				</div>
-			)}
 		</form>
 	);
 }
@@ -99,60 +85,29 @@ export function LoginPage() {
 				(err instanceof Error ? err.message : String(err)) ||
 					'Error al iniciar sesión',
 			);
+			toast.error('Error al iniciar sesión');
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	return (
-		<div
-			className={styles['dashboard-container']}
-			style={{
-				background:
-					'linear-gradient(135deg, #C8E600 0%, #7FBA00 50%, #006633 100%)',
-				backgroundSize: '400% 400%',
-				animation: 'gradientShift 15s ease infinite',
-			}}>
-			<style>{`
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
-			<div style={{ position: 'fixed', top: 20, right: 20, zIndex: 1000 }}>
-				<ThemeToggle />
-			</div>
-			<div
-				style={{
-					width: '100%',
-					minHeight: '100vh',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					padding: '24px',
-				}}>
-				<div
-					className={styles.card}
-					style={{
-						maxWidth: 250,
-						boxShadow: '0 8px 32px rgba(0, 102, 51, 0.3)',
-					}}>
-					<Logo />
-					<LoginForm
-						email={email}
-						password={password}
-						loading={loading}
-						error={error}
-						onEmailChange={setEmail}
-						onPasswordChange={setPassword}
-						onSubmit={handleLogin}
-						onAutofill={() => {
-							setEmail('sergiolopeztapia@gmail.com');
-							setPassword('123');
-						}}
-					/>
-				</div>
+		<div className={styles.container}>
+			<div className={styles.login}>
+				<Logo />
+				<LoginForm
+					email={email}
+					password={password}
+					loading={loading}
+					error={error}
+					onEmailChange={setEmail}
+					onPasswordChange={setPassword}
+					onSubmit={handleLogin}
+					onAutofill={() => {
+						setEmail('sergiolopeztapia@gmail.com');
+						setPassword('123');
+					}}
+				/>
 			</div>
 		</div>
 	);
