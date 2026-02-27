@@ -1,13 +1,6 @@
-import type { ReactNode } from 'react';
 import { Button } from '@/components/Button/Button';
 import styles from '@/styles/dashboard.module.css';
-
-interface PopupProps {
-	isOpen: boolean;
-	title?: string;
-	onClose: () => void;
-	children: ReactNode;
-}
+import type { PopupProps } from './Popup.types';
 
 export function Popup({ isOpen, title, onClose, children }: PopupProps) {
 	if (!isOpen) return null;

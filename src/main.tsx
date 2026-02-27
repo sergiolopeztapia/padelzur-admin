@@ -1,17 +1,15 @@
-import './style.css';
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { UsersPage } from './pages/UsersPage';
+import { ClubsDashboard } from './components/ClubsDashboard/ClubsDashboard';
 import { LoginPage } from './pages/LoginPage';
+import useSessionStore from '@/stores/useSessionStore';
+import './style.css';
 
-const sessionRaw =
-	typeof window !== 'undefined'
-		? sessionStorage.getItem('supabase_session')
-		: null;
-const isLogged = !!sessionRaw;
+function App() {
+	const session = useSessionStore((state) => state.session);
 
-ReactDOM.createRoot(document.getElementById('app')!).render(
-	<React.StrictMode>
-		{isLogged ? <UsersPage /> : <LoginPage />}
-	</React.StrictMode>,
-);
+	console.log('Session en App:', session); // Debug: Verificar el valor de session en App
+
+	return <>{session ? <ClubsDashboard /> : <LoginPage />}</>;
+}
+
+ReactDOM.createRoot(document.getElementById('app')!).render(<App />);

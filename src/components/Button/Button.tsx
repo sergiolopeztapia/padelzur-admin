@@ -1,27 +1,7 @@
-import type { ReactNode, ButtonHTMLAttributes } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
-import styles from '@/styles/dashboard.module.css';
-
-type ButtonVariant =
-	| 'primary'
-	| 'secondary'
-	| 'success'
-	| 'danger'
-	| 'edit'
-	| 'logout';
-type ButtonSize = 'default' | 'sm';
-type IconPosition = 'left' | 'right';
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-	variant?: ButtonVariant;
-	size?: ButtonSize;
-	children?: ReactNode;
-	fullWidth?: boolean;
-	iconName?: keyof typeof LucideIcons;
-	iconPosition?: IconPosition;
-	iconSize?: number;
-}
+import styles from './Button.module.css';
+import type { ButtonProps } from './Button.types';
 
 export function Button({
 	variant = 'primary',

@@ -1,9 +1,6 @@
-import styles from '@/styles/dashboard.module.css';
 import pelotaImg from '@/assets/pelota.png';
-
-interface LogoProps {
-	size?: number;
-}
+import type { LogoProps } from './Logo.types';
+import styles from './Logo.module.css';
 
 export function Logo({ size = 50 }: LogoProps) {
 	return (
@@ -14,8 +11,6 @@ export function Logo({ size = 50 }: LogoProps) {
 				style={{
 					width: `${size}px`,
 					height: `${size}px`,
-					mixBlendMode: 'multiply',
-					filter: 'contrast(1.1)',
 				}}
 			/>
 			PadelZur

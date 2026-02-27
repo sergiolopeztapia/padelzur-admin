@@ -1,18 +1,5 @@
 import styles from '@/styles/dashboard.module.css';
-import type { ReactNode } from 'react';
-
-interface InputFieldProps {
-	type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
-	placeholder?: string;
-	value: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	disabled?: boolean;
-	required?: boolean;
-	autoComplete?: string;
-	name?: string;
-	leftIcon?: ReactNode;
-	rightIcon?: ReactNode;
-}
+import type { InputFieldProps } from './InputField.types';
 
 export function InputField({
 	type = 'text',

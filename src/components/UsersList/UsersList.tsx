@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSupabase } from '@/hooks/useSupabase';
 import { Button } from '@/components/Button/Button';
-import type { Clubes } from '@/types/Clubes';
+import type { Clubes } from '@/types/Club.types';
 
 export function UsersList() {
 	const {

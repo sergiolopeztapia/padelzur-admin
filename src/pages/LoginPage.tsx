@@ -5,19 +5,10 @@ import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { InputField } from '@/components/InputField/InputField';
 import { Button } from '@/components/Button/Button';
 import { Logo } from '@/components/Logo/Logo';
-import styles from '@/styles/dashboard.module.css';
-import type { SupabaseSession } from '@/types/Session';
-
-interface LoginFormProps {
-	email: string;
-	password: string;
-	loading: boolean;
-	error: string | null;
-	onEmailChange: (value: string) => void;
-	onPasswordChange: (value: string) => void;
-	onSubmit: (e: React.FormEvent) => void;
-	onAutofill: () => void;
-}
+import type { SupabaseSession } from '@/types/Session.types';
+import useSessionStore from '@/stores/useSessionStore';
+import styles from './LoginPage.module.css';
+import type { LoginFormProps } from './LoginPage.types';
 
 function LoginForm({
 	email,
@@ -30,8 +21,8 @@ function LoginForm({
 	onAutofill,
 }: LoginFormProps) {
 	return (
-		<form onSubmit={onSubmit} style={{ marginTop: 24 }}>
-			<div style={{ marginBottom: 16 }}>
+		<form onSubmit={onSubmit}>
+			<div className={styles.inputField}>
 				<InputField
 					type='email'
 					placeholder='email@example.com'
@@ -41,7 +32,7 @@ function LoginForm({
 				/>
 			</div>
 
-			<div style={{ marginBottom: 18 }}>
+			<div className={styles.inputField}>
 				<InputField
 					type='password'
 					placeholder='Contraseña'
@@ -51,7 +42,7 @@ function LoginForm({
 				/>
 			</div>
 
-			<div className={styles['form-actions']}>
+			<div className={styles.formActions}>
 				<Button variant='primary' type='submit' disabled={loading}>
 					{loading ? 'Entrando...' : 'Entrar'}
 				</Button>
@@ -76,12 +67,13 @@ function LoginForm({
 }
 
 export function LoginPage() {
+	const setSession = useSessionStore((state) => state.setSession);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const handleLogin = async (e: React.FormEvent) => {
+	const handleLogin: NonNullable<LoginFormProps['onSubmit']> = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		setError(null);
@@ -97,21 +89,10 @@ export function LoginPage() {
 			if (authError) throw authError;
 
 			// The supabase client returns session object inside `data` (may contain session and user)
-			const session =
-				(data as unknown as { session?: unknown } | unknown)?.session || data;
+			const session = (data as { session?: unknown })?.session || data;
 
 			if (session) {
-				const saved: SupabaseSession = {
-					access_token: session.access_token,
-					expires_at: session.expires_at,
-					refresh_token: session.refresh_token,
-					provider_token: session.provider_token,
-					user: session.user,
-				};
-
-				sessionStorage.setItem('supabase_session', JSON.stringify(saved));
-				// reload to pick up changes or redirect
-				window.location.href = '/';
+				setSession(session as SupabaseSession);
 			}
 		} catch (err: unknown) {
 			setError(
@@ -158,7 +139,6 @@ export function LoginPage() {
 						boxShadow: '0 8px 32px rgba(0, 102, 51, 0.3)',
 					}}>
 					<Logo />
-
 					<LoginForm
 						email={email}
 						password={password}

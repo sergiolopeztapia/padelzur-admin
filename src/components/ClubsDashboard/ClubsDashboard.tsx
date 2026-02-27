@@ -1,28 +1,31 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useSupabase } from '@/hooks/useSupabase';
-import type { Clubes } from '@/types/Clubes';
+import type { Club } from '@/types/Club.types';
 import styles from '@/styles/dashboard.module.css';
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle';
 import { Button } from '@/components/Button/Button';
 import { Popup } from '@/components/Popup/Popup';
 import { Logo } from '../Logo/Logo';
+import useSessionStore from '@/stores/useSessionStore';
 
 export function ClubsDashboard() {
 	const {
-		data: clubes,
+		data: club,
 		loading,
 		error,
 		fetchData,
 		insert,
 		update,
 		delete: deleteClub,
-	} = useSupabase<Clubes>({
+	} = useSupabase<Club>({
 		table: 'clubes',
 	});
 
+	const clearSession = useSessionStore((state) => state.clearSession);
+
 	const [editingId, setEditingId] = useState<number | null>(null);
-	const [editingData, setEditingData] = useState<Partial<Clubes>>({});
+	const [editingData, setEditingData] = useState<Partial<Club>>({});
 	const [newClub, setNewClub] = useState({ nombre: '', ciudad: '' });
 	const [showForm, setShowForm] = useState(false);
 	const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
@@ -31,6 +34,7 @@ export function ClubsDashboard() {
 	const handleLogout = async () => {
 		try {
 			await supabase.auth.signOut();
+			clearSession();
 			sessionStorage.removeItem('supabase_session');
 			window.location.href = '/login';
 		} catch (error) {
@@ -46,6 +50,7 @@ export function ClubsDashboard() {
 		if (!newClub.nombre || !newClub.ciudad) return;
 		await insert([
 			{
+				id: null, // Deja que Supabase asigne el ID automáticamente
 				nombre: newClub.nombre,
 				ciudad: newClub.ciudad,
 			},
@@ -55,7 +60,7 @@ export function ClubsDashboard() {
 		fetchData();
 	};
 
-	const startEditing = (club: Clubes) => {
+	const startEditing = (club: Club) => {
 		setEditingId(club.id ?? null);
 		setEditingData(club);
 	};
@@ -72,7 +77,8 @@ export function ClubsDashboard() {
 		}
 	};
 
-	const handleDeleteClub = (id: number, nombre: string) => {
+	const handleDeleteClub = (club: Club) => {
+		const { id, nombre } = club;
 		setPendingDeleteId(id);
 		setPendingDeleteName(nombre);
 	};
@@ -88,7 +94,7 @@ export function ClubsDashboard() {
 	if (loading) {
 		return (
 			<div className={styles['dashboard-container']}>
-				<div className={styles.loading}>Cargando clubes...</div>
+				<div className={styles.loading}>Cargando club...</div>
 			</div>
 		);
 	}
@@ -186,8 +192,8 @@ export function ClubsDashboard() {
 					</Popup>
 
 					<div className={styles['clubs-grid']}>
-						{clubes && clubes.length > 0 ? (
-							clubes.map((club) => (
+						{club && club.length > 0 ? (
+							club.map((club) => (
 								<div key={club.id} className={styles['club-card']}>
 									{editingId === club.id ? (
 										<div className={styles['edit-form']}>
@@ -245,9 +251,7 @@ export function ClubsDashboard() {
 												<Button
 													variant='danger'
 													size='sm'
-													onClick={() =>
-														handleDeleteClub(club.id, club.nombre)
-													}>
+													onClick={() => handleDeleteClub(club)}>
 													Eliminar
 												</Button>
 											</div>
@@ -257,17 +261,15 @@ export function ClubsDashboard() {
 							))
 						) : (
 							<div className={styles['empty-state']}>
-								<p>No hay clubes registrados</p>
+								<p>No hay club registrados</p>
 							</div>
 						)}
 					</div>
 
 					<div className={styles.stats}>
 						<div className={styles['stat-card']}>
-							<span className={styles['stat-number']}>
-								{clubes?.length || 0}
-							</span>
-							<span className={styles['stat-label']}>Clubes Totales</span>
+							<span className={styles['stat-number']}>{club?.length || 0}</span>
+							<span className={styles['stat-label']}>Club Totales</span>
 						</div>
 					</div>
 				</div>

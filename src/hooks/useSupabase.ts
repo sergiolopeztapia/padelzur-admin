@@ -1,20 +1,10 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import type { SupabaseSession } from '@/types/Session';
-
-interface UseSupabaseOptions {
-	table: string;
-}
-
-interface UseSupabaseResult<T> {
-	data: T[] | null;
-	error: Error | null;
-	loading: boolean;
-	fetchData: () => Promise<void>;
-	insert: (records: T[]) => Promise<void>;
-	update: (id: string | number, updates: Partial<T>) => Promise<void>;
-	delete: (id: string | number) => Promise<void>;
-}
+import type { SupabaseSession } from '@/types/Session.types';
+import type {
+	UseSupabaseOptions,
+	UseSupabaseResult,
+} from './useSupabase.types';
 
 /**
  * Custom React hook for interacting with Supabase

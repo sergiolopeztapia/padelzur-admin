@@ -1,4 +1,4 @@
-export interface SupabaseSession {
+export type SupabaseSession = Readonly<{
 	access_token: string;
 	expires_at?: number;
 	refresh_token?: string;
@@ -9,4 +9,4 @@ export interface SupabaseSession {
 		app_metadata?: Record<string, unknown>;
 		user_metadata?: Record<string, unknown>;
 	};
-}
+}>;
