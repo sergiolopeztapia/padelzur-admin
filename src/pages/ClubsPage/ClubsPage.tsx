@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
 import { useSupabase } from '@/hooks/useSupabase';
 import type { Club } from '@/types/Club.types';
-import styles from '@/styles/dashboard.module.css';
+import styles from './ClubsPage.module.css';
 import { Button } from '@/components/Button/Button';
 import { Popup } from '@/components/Popup/Popup';
-import { Logo } from '../Logo/Logo';
-import useSessionStore from '@/stores/useSessionStore';
+import Header from '@/features/Header/Header';
 
-export function ClubsDashboard() {
+function ClubsPage() {
 	const {
 		data: club,
 		loading,
@@ -21,25 +19,12 @@ export function ClubsDashboard() {
 		table: 'clubes',
 	});
 
-	const clearSession = useSessionStore((state) => state.clearSession);
-
 	const [editingId, setEditingId] = useState<number | null>(null);
 	const [editingData, setEditingData] = useState<Partial<Club>>({});
 	const [newClub, setNewClub] = useState({ nombre: '', ciudad: '' });
 	const [showForm, setShowForm] = useState(false);
 	const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
 	const [pendingDeleteName, setPendingDeleteName] = useState<string>('');
-
-	const handleLogout = async () => {
-		try {
-			await supabase.auth.signOut();
-			clearSession();
-			sessionStorage.removeItem('supabase_session');
-			window.location.href = '/login';
-		} catch (error) {
-			console.error('Error al cerrar sesión:', error);
-		}
-	};
 
 	useEffect(() => {
 		fetchData();
@@ -92,7 +77,7 @@ export function ClubsDashboard() {
 
 	if (loading) {
 		return (
-			<div className={styles['dashboard-container']}>
+			<div className={styles.dashboardContainer}>
 				<div className={styles.loading}>Cargando club...</div>
 			</div>
 		);
@@ -100,28 +85,19 @@ export function ClubsDashboard() {
 
 	if (error) {
 		return (
-			<div className={styles['dashboard-container']}>
+			<div className={styles.dashboardContainer}>
 				<div className={styles.error}>Error: {error.message}</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className={styles['dashboard-container']}>
-			<header className={styles['dashboard-header']}>
-				<div className={styles['header-left']}>
-					<Logo />
-				</div>
-				<div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-					<Button variant='logout' onClick={handleLogout} title='Cerrar sesión'>
-						Cerrar sesión
-					</Button>
-				</div>
-			</header>
+		<div className={styles.dashboardContainer}>
+			<Header />
 
-			<div className={styles['dashboard-main']}>
-				<div className={styles['dashboard-content']}>
-					<div className={styles['action-bar']}>
+			<div className={styles.dashboardMain}>
+				<div className={styles.dashboardContent}>
+					<div className={styles.actionBar}>
 						<Button variant='primary' onClick={() => setShowForm(true)}>
 							+ Agregar Club
 						</Button>
@@ -131,7 +107,7 @@ export function ClubsDashboard() {
 						isOpen={showForm}
 						title='Nuevo Club'
 						onClose={() => setShowForm(false)}>
-						<div className={styles['form-group']}>
+						<div className={styles.formGroup}>
 							<input
 								type='text'
 								placeholder='Nombre del club'
@@ -139,10 +115,10 @@ export function ClubsDashboard() {
 								onChange={(e) =>
 									setNewClub({ ...newClub, nombre: e.target.value })
 								}
-								className={styles['form-input']}
+								className={styles.formInput}
 							/>
 						</div>
-						<div className={styles['form-group']}>
+						<div className={styles.formGroup}>
 							<input
 								type='text'
 								placeholder='Ciudad'
@@ -150,10 +126,10 @@ export function ClubsDashboard() {
 								onChange={(e) =>
 									setNewClub({ ...newClub, ciudad: e.target.value })
 								}
-								className={styles['form-input']}
+								className={styles.formInput}
 							/>
 						</div>
-						<div className={styles['form-actions']}>
+						<div className={styles.formActions}>
 							<Button variant='success' onClick={handleAddClub}>
 								Guardar
 							</Button>
@@ -174,7 +150,7 @@ export function ClubsDashboard() {
 							¿Estás seguro de que deseas eliminar el club{' '}
 							<strong>{pendingDeleteName}</strong>?
 						</p>
-						<div className={styles['form-actions']}>
+						<div className={styles.formActions}>
 							<Button variant='danger' onClick={confirmDeleteClub}>
 								Eliminar
 							</Button>
@@ -189,12 +165,12 @@ export function ClubsDashboard() {
 						</div>
 					</Popup>
 
-					<div className={styles['clubs-grid']}>
+					<div className={styles.clubsGrid}>
 						{club && club.length > 0 ? (
 							club.map((club) => (
-								<div key={club.id} className={styles['club-card']}>
+								<div key={club.id} className={styles.clubCard}>
 									{editingId === club.id ? (
-										<div className={styles['edit-form']}>
+										<div className={styles.editForm}>
 											<input
 												type='text'
 												value={editingData.nombre || ''}
@@ -204,7 +180,7 @@ export function ClubsDashboard() {
 														nombre: e.target.value,
 													})
 												}
-												className={styles['form-input']}
+												className={styles.formInput}
 											/>
 											<input
 												type='text'
@@ -215,9 +191,9 @@ export function ClubsDashboard() {
 														ciudad: e.target.value,
 													})
 												}
-												className={styles['form-input']}
+												className={styles.formInput}
 											/>
-											<div className={styles['form-actions']}>
+											<div className={styles.formActions}>
 												<Button
 													variant='success'
 													size='sm'
@@ -234,12 +210,12 @@ export function ClubsDashboard() {
 										</div>
 									) : (
 										<>
-											<div className={styles['club-info']}>
-												<h3 className={styles['club-name']}>{club.nombre}</h3>
-												<p className={styles['club-city']}>📍 {club.ciudad}</p>
-												<span className={styles['club-id']}>ID: {club.id}</span>
+											<div className={styles.clubInfo}>
+												<h3 className={styles.clubName}>{club.nombre}</h3>
+												<p className={styles.clubCity}>📍 {club.ciudad}</p>
+												<span className={styles.clubId}>ID: {club.id}</span>
 											</div>
-											<div className={styles['club-actions']}>
+											<div className={styles.clubActions}>
 												<Button
 													variant='edit'
 													size='sm'
@@ -258,16 +234,16 @@ export function ClubsDashboard() {
 								</div>
 							))
 						) : (
-							<div className={styles['empty-state']}>
+							<div className={styles.emptyState}>
 								<p>No hay club registrados</p>
 							</div>
 						)}
 					</div>
 
 					<div className={styles.stats}>
-						<div className={styles['stat-card']}>
-							<span className={styles['stat-number']}>{club?.length || 0}</span>
-							<span className={styles['stat-label']}>Club Totales</span>
+						<div className={styles.statCard}>
+							<span className={styles.statNumber}>{club?.length || 0}</span>
+							<span className={styles.statLabel}>Club Totales</span>
 						</div>
 					</div>
 				</div>
@@ -275,3 +251,5 @@ export function ClubsDashboard() {
 		</div>
 	);
 }
+
+export default ClubsPage;
