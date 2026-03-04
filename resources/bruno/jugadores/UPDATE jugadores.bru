@@ -1,0 +1,33 @@
+meta {
+  name: UPDATE jugadores
+  type: http
+  seq: 3
+}
+
+patch {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/jugadores?id=eq.1
+  body: json
+  auth: inherit
+}
+
+params:query {
+  id: eq.1
+}
+
+headers {
+  apikey: {{apikey}}
+  Authorization: Bearer {{bearer_token}}
+  Content-Type: application/json
+  Prefer: return=minimal
+}
+
+body:json {
+  {
+    "nombre": "Sergio"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

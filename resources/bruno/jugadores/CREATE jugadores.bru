@@ -1,0 +1,36 @@
+meta {
+  name: CREATE jugadores
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/jugadores
+  body: json
+  auth: inherit
+}
+
+headers {
+  apikey: {{apikey}}
+  Authorization: Bearer {{bearer_token}}
+  Content-Type: application/json
+  ~Prefer: return=minimal
+}
+
+body:json {
+  {
+    "nombre": "Jugador",
+    "apodo": "otherValue1",
+    "telefono": "650593243",
+    "sexo": "H",
+    "apellido1": "otherValue34",
+    "apellido2": "otherValue4",
+    "fecha_nac": "1982-02-21",
+    "lado": "DRIVE"
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

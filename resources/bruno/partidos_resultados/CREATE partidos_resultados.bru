@@ -1,0 +1,29 @@
+meta {
+  name: CREATE partidos_resultados
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/partidos_resultados
+  body: json
+  auth: inherit
+}
+
+headers {
+  apikey: {{apikey}}
+  Authorization: Bearer {{bearer_token}}
+  Content-Type: application/json
+  Prefer: return=minimal
+}
+
+body:json {
+  {
+    "id_partido": 180
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

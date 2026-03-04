@@ -1,0 +1,33 @@
+meta {
+  name: UPDATE partidos
+  type: http
+  seq: 3
+}
+
+patch {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/partidos?id=eq.180
+  body: json
+  auth: inherit
+}
+
+params:query {
+  id: eq.180
+}
+
+headers {
+  apikey: {{apikey}}
+  Authorization: Bearer {{bearer_token}}
+  Content-Type: application/json
+  Prefer: return=minimal
+}
+
+body:json {
+  {
+    "id_jugador1_pareja1": 10
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

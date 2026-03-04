@@ -1,0 +1,31 @@
+meta {
+  name: READ partidos
+  type: http
+  seq: 2
+}
+
+get {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/partidos?select=*
+  body: none
+  auth: apikey
+}
+
+params:query {
+  select: *
+}
+
+headers {
+  apikey: {{apikey}}
+  ~Authorization: Bearer {{bearer_token}}
+}
+
+auth:apikey {
+  key: 
+  value: 
+  placement: header
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

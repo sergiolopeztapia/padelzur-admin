@@ -1,0 +1,31 @@
+meta {
+  name: CREATE pistas
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/pistas
+  body: json
+  auth: inherit
+}
+
+headers {
+  apikey: {{apikey}}
+  Authorization: Bearer {{bearer_token}}
+  Content-Type: application/json
+}
+
+body:json {
+  [
+    {
+      "id_club": 1,
+      "nombre": "Pista DELETE"
+    }
+  ]
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

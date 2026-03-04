@@ -1,0 +1,33 @@
+meta {
+  name: CREATE partidos
+  type: http
+  seq: 1
+}
+
+post {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/partidos
+  body: json
+  auth: inherit
+}
+
+headers {
+  apikey: {{apikey}}
+  Authorization: Bearer {{bearer_token}}
+  Content-Type: application/json
+  Prefer: return=minimal
+}
+
+body:json {
+  {
+    "id_pista": 2,
+    "id_jugador1_pareja1": 1,
+    "id_jugador2_pareja1": 1,
+    "id_jugador1_pareja2": 1,
+    "id_jugador2_pareja2": 1  
+  }
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

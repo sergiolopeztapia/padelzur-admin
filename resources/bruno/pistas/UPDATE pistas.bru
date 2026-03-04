@@ -1,0 +1,33 @@
+meta {
+  name: UPDATE pistas
+  type: http
+  seq: 3
+}
+
+patch {
+  url: https://cofwxkqqkkfzrlnggqmk.supabase.co/rest/v1/pistas?id=eq.2
+  body: json
+  auth: inherit
+}
+
+params:query {
+  id: eq.2
+}
+
+headers {
+  apikey: {{apikey}}
+  Authorization: Bearer {{bearer_token}}
+  Content-Type: application/json
+  Prefer: return=minimal
+}
+
+body:json {
+  {
+    "superficie": "rojo"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
