@@ -10,13 +10,14 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'@/components': path.resolve(__dirname, './src/components'),
-			'@/lib': path.resolve(__dirname, './src/lib'),
-			'@/hooks': path.resolve(__dirname, './src/hooks'),
-			'@/types': path.resolve(__dirname, './src/types'),
-			'@/styles': path.resolve(__dirname, './src/styles'),
 			'@/assets': path.resolve(__dirname, './src/assets'),
+			'@/components': path.resolve(__dirname, './src/components'),
+			'@/features': path.resolve(__dirname, './src/features'),
+			'@/hooks': path.resolve(__dirname, './src/hooks'),
+			'@/lib': path.resolve(__dirname, './src/lib'),
 			'@/stores': path.resolve(__dirname, './src/stores'),
+			'@/styles': path.resolve(__dirname, './src/styles'),
+			'@/types': path.resolve(__dirname, './src/types'),
 		},
 	},
 });

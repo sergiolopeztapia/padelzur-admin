@@ -1,6 +1,6 @@
 import { Toaster } from 'react-hot-toast';
 import { ClubsDashboard } from './components/ClubsDashboard/ClubsDashboard';
-import { LoginPage } from './pages/LoginPage';
+import { LoginPage } from './pages/LoginPage/LoginPage';
 import useSessionStore from '@/stores/useSessionStore';
 
 function App() {

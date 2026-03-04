@@ -26,13 +26,14 @@
 		/* Path aliases */
 		"baseUrl": ".",
 		"paths": {
-			"@/components/*": ["src/components/*"],
-			"@/lib/*": ["src/lib/*"],
-			"@/hooks/*": ["src/hooks/*"],
-			"@/types/*": ["src/types/*"],
-			"@/styles/*": ["src/styles/*"],
 			"@/assets/*": ["src/assets/*"],
-			"@/stores/*": ["src/stores/*"]
+			"@/components/*": ["src/components/*"],
+			"@/features/*": ["src/features/*"],
+			"@/hooks/*": ["src/hooks/*"],
+			"@/lib/*": ["src/lib/*"],
+			"@/stores/*": ["src/stores/*"],
+			"@/styles/*": ["src/styles/*"],
+			"@/types/*": ["src/types/*"]
 		}
 	},
 	"include": ["src"]
