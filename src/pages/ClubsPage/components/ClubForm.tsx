@@ -2,18 +2,39 @@ import { useState } from 'react';
 import { Button } from '@/components/Button/Button';
 import { InputField } from '@/components/InputField/InputField';
 import usePopupStore from '@/stores/usePopupStore';
+import toast from 'react-hot-toast';
 
-type AddClubFormProps = {
-	onSubmit: (data: { nombre: string; ciudad: string }) => Promise<void>;
+type ClubFormData = {
+	nombre: string;
+	ciudad: string;
 };
 
-export function AddClubForm({ onSubmit }: AddClubFormProps) {
+type ClubFormProps = {
+	onSubmit: (data: ClubFormData) => Promise<void>;
+	initialData?: ClubFormData;
+	submitText?: string;
+};
+
+export function ClubForm({
+	onSubmit,
+	initialData,
+	submitText = 'Guardar',
+}: ClubFormProps) {
 	const { closePopup } = usePopupStore();
-	const [formData, setFormData] = useState({ nombre: '', ciudad: '' });
+	const [formData, setFormData] = useState<ClubFormData>({
+		nombre: initialData?.nombre ?? '',
+		ciudad: initialData?.ciudad ?? '',
+	});
 
 	const handleSubmit = async () => {
 		if (!formData.nombre || !formData.ciudad) return;
-		await onSubmit(formData);
+		try {
+			await onSubmit(formData);
+		} catch (error) {
+			toast.error(
+				error instanceof Error ? error.message : 'No se pudo guardar el club',
+			);
+		}
 	};
 
 	return (
@@ -36,7 +57,7 @@ export function AddClubForm({ onSubmit }: AddClubFormProps) {
 			</div>
 			<div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
 				<Button variant='success' onClick={handleSubmit}>
-					Guardar
+					{submitText}
 				</Button>
 				<Button variant='secondary' onClick={closePopup}>
 					Cancelar

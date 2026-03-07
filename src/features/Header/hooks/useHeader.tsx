@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import useSessionStore from '@/stores/useSessionStore';
+import toast from 'react-hot-toast';
 import type { UseHeaderResult } from '../Header.types';
 
 export default function useHeader(): UseHeaderResult {
@@ -13,6 +14,9 @@ export default function useHeader(): UseHeaderResult {
 			window.location.href = '/login';
 		} catch (error) {
 			console.error('Error al cerrar sesión:', error);
+			toast.error(
+				error instanceof Error ? error.message : 'Error al cerrar sesión',
+			);
 		}
 	};
 

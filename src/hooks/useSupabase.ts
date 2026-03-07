@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import type { SupabaseSession } from '@/types/Session.types';
+import toast from 'react-hot-toast';
 import type {
 	UseSupabaseOptions,
 	UseSupabaseResult,
@@ -24,6 +25,12 @@ export function useSupabase<T>({
 	const [error, setError] = useState<Error | null>(null);
 	const [loading, setLoading] = useState(false);
 
+	const notifyError = (err: unknown, fallback: string) => {
+		const safeError = err instanceof Error ? err : new Error(fallback);
+		setError(safeError);
+		toast.error(safeError.message || fallback);
+	};
+
 	// Fetch data from the specified table
 	const fetchData = useCallback(async () => {
 		setLoading(true);
@@ -36,7 +43,7 @@ export function useSupabase<T>({
 			if (fetchError) throw new Error(fetchError.message);
 			setData(result);
 		} catch (err) {
-			setError(err instanceof Error ? err : new Error('Unknown error'));
+			notifyError(err, 'Error al cargar datos');
 		} finally {
 			setLoading(false);
 		}
@@ -84,7 +91,7 @@ export function useSupabase<T>({
 				if (insertError) throw new Error(insertError.message);
 				await fetchData();
 			} catch (err) {
-				setError(err instanceof Error ? err : new Error('Unknown error'));
+				notifyError(err, 'Error al insertar registro');
 			} finally {
 				setLoading(false);
 			}
@@ -106,7 +113,7 @@ export function useSupabase<T>({
 				if (updateError) throw new Error(updateError.message);
 				await fetchData();
 			} catch (err) {
-				setError(err instanceof Error ? err : new Error('Unknown error'));
+				notifyError(err, 'Error al actualizar registro');
 			} finally {
 				setLoading(false);
 			}
@@ -128,7 +135,7 @@ export function useSupabase<T>({
 				if (deleteError) throw new Error(deleteError.message);
 				await fetchData();
 			} catch (err) {
-				setError(err instanceof Error ? err : new Error('Unknown error'));
+				notifyError(err, 'Error al eliminar registro');
 			} finally {
 				setLoading(false);
 			}

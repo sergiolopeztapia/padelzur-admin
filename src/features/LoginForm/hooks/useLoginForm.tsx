@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabase';
 import useSessionStore from '@/stores/useSessionStore';
 import type { SupabaseSession } from '@/types/Session.types';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import type { UseLoginFormResult } from '../LoginForm.types';
 
 export default function useLoginForm(): UseLoginFormResult {
@@ -38,6 +39,7 @@ export default function useLoginForm(): UseLoginFormResult {
 				'Error al iniciar sesión';
 
 			setError(message);
+			toast.error(message);
 		} finally {
 			setLoading(false);
 		}

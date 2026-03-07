@@ -8,57 +8,6 @@
 	overflow-y: auto;
 }
 
-.dashboardHeader {
-	text-align: center;
-	color: var(--text-primary);
-	margin-bottom: 0;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 16px;
-	padding: 20px 24px;
-	background: var(--glass);
-	border-bottom: 1px solid var(--border);
-	backdrop-filter: blur(10px);
-	width: 100%;
-}
-
-.headerLeft {
-	flex: 1;
-	text-align: center;
-}
-
-.dashboardHeader h1 {
-	font-size: clamp(1.6rem, 3.4vw, 2.6rem);
-	margin: 0;
-	font-weight: 800;
-	letter-spacing: -0.02em;
-	color: var(--text-primary);
-}
-
-.dashboardHeader .subtitle {
-	text-align: center;
-	margin-top: 8px;
-}
-
-.logo {
-	font-family: 'Indie Flower', cursive;
-	text-align: center;
-	margin: 1rem 0;
-	color: #7fba00;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-}
-
-.subtitle {
-	font-size: 0.98rem;
-	margin-top: 8px;
-	color: var(--muted);
-}
-
 .dashboardMain {
 	width: min(1200px, 100%);
 	margin: 0 auto;
@@ -82,96 +31,6 @@
 	align-items: center;
 	justify-content: space-between;
 	flex-wrap: wrap;
-}
-
-.card {
-	background: var(--card-bg);
-	border: 1px solid var(--border);
-	border-radius: 12px;
-	padding: 40px;
-}
-
-.popupOverlay {
-	position: fixed;
-	inset: 0;
-	background: rgba(6, 24, 6, 0.45);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 24px;
-	z-index: 2000;
-}
-
-.popupContent {
-	width: min(520px, 100%);
-	background: var(--card-bg);
-	border: 1px solid var(--border);
-	border-radius: 16px;
-	padding: 20px;
-	box-shadow: 0 16px 36px rgba(0, 76, 38, 0.35);
-	max-height: 90vh;
-	overflow: auto;
-}
-
-.popupHeader {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	margin-bottom: 12px;
-}
-
-.popupTitle {
-	margin: 0;
-	font-size: 1.2rem;
-	color: var(--text-primary);
-}
-
-.popupBody {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-}
-
-.formCard {
-	padding: 18px;
-	margin-bottom: 18px;
-}
-
-.formCard h3 {
-	margin: 0 0 8px 0;
-}
-
-.formGroup {
-	margin-bottom: 12px;
-}
-
-.formInput {
-	width: 100%;
-	padding: 12px 14px;
-	border-radius: 8px;
-	border: 1px solid var(--border);
-	background: var(--card-bg);
-	color: var(--text-primary);
-	font-size: 0.95rem;
-	box-sizing: border-box;
-}
-
-.formInput::placeholder {
-	color: var(--text-secondary);
-}
-
-.formInput:focus {
-	outline: none;
-	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-	border-color: var(--accent);
-}
-
-.formActions {
-	display: flex;
-	gap: 12px;
-	flex-wrap: wrap;
-	margin-top: 20px;
 }
 
 .clubsGrid {
@@ -239,12 +98,6 @@
 	min-width: 100px;
 }
 
-.editForm {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-}
-
 .emptyState {
 	grid-column: 1 / -1;
 	text-align: center;
@@ -276,16 +129,12 @@
 	margin-top: 8px;
 }
 
-.loading,
-.error {
+.loading {
 	text-align: center;
 	padding: 28px;
 	border-radius: 12px;
 	background: var(--bg-secondary);
 	color: var(--text-primary);
-}
-.error {
-	color: #fca5a5;
 }
 
 /* Tablet responsiveness */
@@ -307,9 +156,6 @@
 		padding: 16px;
 		border-radius: 12px;
 	}
-	.dashboardHeader h1 {
-		font-size: 1.8rem;
-	}
 	.clubsGrid {
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		gap: 16px;
@@ -317,25 +163,10 @@
 	.clubCard {
 		padding: 16px;
 	}
-	.popupContent {
-		padding: 18px;
-		border-radius: 12px;
-	}
-	.formActions {
-		gap: 10px;
-	}
 }
 
 /* Small mobile */
 @media (max-width: 720px) {
-	.dashboardContainer {
-		padding: 0;
-	}
-	.dashboardHeader {
-		padding: 14px 16px;
-		justify-content: center;
-		text-align: center;
-	}
 	.dashboardMain {
 		padding: 12px 8px 20px;
 	}
@@ -380,35 +211,6 @@
 		min-width: 100%;
 		padding: 16px;
 	}
-	.popupOverlay {
-		padding: 16px;
-	}
-	.popupContent {
-		padding: 16px;
-		max-height: 85vh;
-	}
-	.popupTitle {
-		font-size: 1.1rem;
-	}
-	.formInput {
-		padding: 10px 12px;
-		font-size: 0.9rem;
-	}
-	.formActions {
-		gap: 8px;
-		flex-direction: column;
-	}
-	.formActions button {
-		width: 100%;
-	}
-	.editForm .formActions {
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-	.editForm .formActions button {
-		flex: 1;
-		min-width: calc(50% - 4px);
-	}
 }
 
 /* Extra small mobile */
@@ -419,12 +221,6 @@
 	.dashboardContent {
 		padding: 12px;
 		border-radius: 8px;
-	}
-	.dashboardHeader h1 {
-		font-size: 1.5rem;
-	}
-	.subtitle {
-		font-size: 0.88rem;
 	}
 	.clubCard {
 		padding: 12px;
@@ -439,22 +235,10 @@
 		font-size: 0.75rem;
 		padding: 4px 8px;
 	}
-	.popupContent {
-		padding: 14px;
-		border-radius: 10px;
-	}
-	.formInput {
-		padding: 9px 10px;
-		font-size: 0.88rem;
-	}
-	.card {
-		padding: 20px;
-	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.clubCard,
-	.dashboardHeader {
+	.clubCard {
 		transition: none !important;
 	}
 }
