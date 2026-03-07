@@ -1,26 +1,26 @@
 import { Button } from '@/components/Button/Button';
-import styles from '@/styles/dashboard.module.css';
-import type { PopupProps } from './Popup.types';
+import styles from './Popup.module.css';
+import usePopupStore from '@/stores/usePopupStore';
 
-export function Popup({ isOpen, title, onClose, children }: PopupProps) {
+export function Popup() {
+	const { isOpen, title, children, closePopup } = usePopupStore();
+
 	if (!isOpen) return null;
 
 	return (
-		<div className={styles['popup-overlay']} onClick={onClose}>
-			<div
-				className={styles['popup-content']}
-				onClick={(e) => e.stopPropagation()}>
-				<div className={styles['popup-header']}>
-					{title ? (
-						<h3 className={styles['popup-title']}>{title}</h3>
-					) : (
-						<span />
-					)}
-					<Button variant='secondary' size='sm' type='button' onClick={onClose}>
-						Cerrar
-					</Button>
+		<div className={styles.container} onClick={closePopup}>
+			<div className={styles.content} onClick={(e) => e.stopPropagation()}>
+				<div className={styles.header}>
+					{title ? <h3 className={styles.title}>{title}</h3> : <span />}
+					<Button
+						variant='secondary'
+						size='sm'
+						type='button'
+						iconName='X'
+						onClick={closePopup}
+					/>
 				</div>
-				<div className={styles['popup-body']}>{children}</div>
+				<div className={styles.body}>{children}</div>
 			</div>
 		</div>
 	);

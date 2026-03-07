@@ -1,29 +1,6 @@
-:root {
-	--bg-primary: #c8e600;
-	--bg-secondary: #e7f96a;
-	--card-bg: #f7ffd1;
-	--glass: rgba(247, 255, 209, 0.8);
-	--text-primary: #0f2f10;
-	--text-secondary: #2f5c24;
-	--muted: #4b7a34;
-	--accent: #006633;
-	--accent-2: #7fba00;
-	--border: #b6d700;
-}
-
-.dashboardContainer {
-	min-height: 100vh;
+.container {
+	min-height: 100%;
 	width: 100%;
-	padding: 0;
-	background: linear-gradient(
-		135deg,
-		#e7f96a 0%,
-		#c8e600 35%,
-		#7fba00 70%,
-		#006633 100%
-	);
-	background-attachment: fixed;
-	color: var(--text-primary);
 	display: flex;
 	flex-direction: column;
 	align-items: center;

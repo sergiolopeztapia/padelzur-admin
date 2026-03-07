@@ -114,48 +114,6 @@
 	padding: 40px;
 }
 
-.popup-overlay {
-	position: fixed;
-	inset: 0;
-	background: rgba(6, 24, 6, 0.45);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 24px;
-	z-index: 2000;
-}
-
-.popup-content {
-	width: min(520px, 100%);
-	background: var(--card-bg);
-	border: 1px solid var(--border);
-	border-radius: 16px;
-	padding: 20px;
-	box-shadow: 0 16px 36px rgba(0, 76, 38, 0.35);
-	max-height: 90vh;
-	overflow: auto;
-}
-
-.popup-header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	margin-bottom: 12px;
-}
-
-.popup-title {
-	margin: 0;
-	font-size: 1.2rem;
-	color: var(--text-primary);
-}
-
-.popup-body {
-	display: flex;
-	flex-direction: column;
-	gap: 12px;
-}
-
 .form-card {
 	padding: 18px;
 	margin-bottom: 18px;

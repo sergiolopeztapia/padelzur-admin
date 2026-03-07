@@ -3,8 +3,11 @@ import { useSupabase } from '@/hooks/useSupabase';
 import type { Club } from '@/types/Club.types';
 import styles from './ClubsPage.module.css';
 import { Button } from '@/components/Button/Button';
-import { Popup } from '@/components/Popup/Popup';
+import { InputField } from '@/components/InputField/InputField';
+import usePopupStore from '@/stores/usePopupStore';
 import Header from '@/features/Header/Header';
+import { AddClubForm } from '@/components/Popup/AddClubForm';
+import { DeleteConfirmation } from '@/components/Popup/DeleteConfirmation';
 
 function ClubsPage() {
 	const {
@@ -19,29 +22,31 @@ function ClubsPage() {
 		table: 'clubes',
 	});
 
+	const { openPopup, closePopup } = usePopupStore();
+
 	const [editingId, setEditingId] = useState<number | null>(null);
 	const [editingData, setEditingData] = useState<Partial<Club>>({});
-	const [newClub, setNewClub] = useState({ nombre: '', ciudad: '' });
-	const [showForm, setShowForm] = useState(false);
-	const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
-	const [pendingDeleteName, setPendingDeleteName] = useState<string>('');
 
 	useEffect(() => {
 		fetchData();
 	}, [fetchData]);
 
-	const handleAddClub = async () => {
-		if (!newClub.nombre || !newClub.ciudad) return;
+	const handleAddClub = async (data: { nombre: string; ciudad: string }) => {
 		await insert([
 			{
-				id: null, // Deja que Supabase asigne el ID automáticamente
-				nombre: newClub.nombre,
-				ciudad: newClub.ciudad,
+				nombre: data.nombre,
+				ciudad: data.ciudad,
 			},
 		]);
-		setNewClub({ nombre: '', ciudad: '' });
-		setShowForm(false);
+		closePopup();
 		fetchData();
+	};
+
+	const openAddClubPopup = () => {
+		openPopup({
+			title: 'Nuevo Club',
+			children: <AddClubForm onSubmit={handleAddClub} />,
+		});
 	};
 
 	const startEditing = (club: Club) => {
@@ -63,21 +68,24 @@ function ClubsPage() {
 
 	const handleDeleteClub = (club: Club) => {
 		const { id, nombre } = club;
-		setPendingDeleteId(id);
-		setPendingDeleteName(nombre);
-	};
 
-	const confirmDeleteClub = async () => {
-		if (pendingDeleteId === null) return;
-		await deleteClub(pendingDeleteId);
-		setPendingDeleteId(null);
-		setPendingDeleteName('');
-		fetchData();
+		const confirmDeleteClub = async () => {
+			if (id == null) return;
+			await deleteClub(id);
+			fetchData();
+		};
+
+		openPopup({
+			title: 'Confirmar eliminación',
+			children: (
+				<DeleteConfirmation itemName={nombre} onConfirm={confirmDeleteClub} />
+			),
+		});
 	};
 
 	if (loading) {
 		return (
-			<div className={styles.dashboardContainer}>
+			<div className={styles.container}>
 				<div className={styles.loading}>Cargando club...</div>
 			</div>
 		);
@@ -85,85 +93,23 @@ function ClubsPage() {
 
 	if (error) {
 		return (
-			<div className={styles.dashboardContainer}>
+			<div className={styles.container}>
 				<div className={styles.error}>Error: {error.message}</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className={styles.dashboardContainer}>
+		<div className={styles.container}>
 			<Header />
 
 			<div className={styles.dashboardMain}>
 				<div className={styles.dashboardContent}>
 					<div className={styles.actionBar}>
-						<Button variant='primary' onClick={() => setShowForm(true)}>
+						<Button variant='primary' onClick={openAddClubPopup}>
 							+ Agregar Club
 						</Button>
 					</div>
-
-					<Popup
-						isOpen={showForm}
-						title='Nuevo Club'
-						onClose={() => setShowForm(false)}>
-						<div className={styles.formGroup}>
-							<input
-								type='text'
-								placeholder='Nombre del club'
-								value={newClub.nombre}
-								onChange={(e) =>
-									setNewClub({ ...newClub, nombre: e.target.value })
-								}
-								className={styles.formInput}
-							/>
-						</div>
-						<div className={styles.formGroup}>
-							<input
-								type='text'
-								placeholder='Ciudad'
-								value={newClub.ciudad}
-								onChange={(e) =>
-									setNewClub({ ...newClub, ciudad: e.target.value })
-								}
-								className={styles.formInput}
-							/>
-						</div>
-						<div className={styles.formActions}>
-							<Button variant='success' onClick={handleAddClub}>
-								Guardar
-							</Button>
-							<Button variant='secondary' onClick={() => setShowForm(false)}>
-								Cancelar
-							</Button>
-						</div>
-					</Popup>
-
-					<Popup
-						isOpen={pendingDeleteId !== null}
-						title='Confirmar eliminación'
-						onClose={() => {
-							setPendingDeleteId(null);
-							setPendingDeleteName('');
-						}}>
-						<p>
-							¿Estás seguro de que deseas eliminar el club{' '}
-							<strong>{pendingDeleteName}</strong>?
-						</p>
-						<div className={styles.formActions}>
-							<Button variant='danger' onClick={confirmDeleteClub}>
-								Eliminar
-							</Button>
-							<Button
-								variant='secondary'
-								onClick={() => {
-									setPendingDeleteId(null);
-									setPendingDeleteName('');
-								}}>
-								Cancelar
-							</Button>
-						</div>
-					</Popup>
 
 					<div className={styles.clubsGrid}>
 						{club && club.length > 0 ? (
@@ -171,8 +117,9 @@ function ClubsPage() {
 								<div key={club.id} className={styles.clubCard}>
 									{editingId === club.id ? (
 										<div className={styles.editForm}>
-											<input
+											<InputField
 												type='text'
+												placeholder='Nombre del club'
 												value={editingData.nombre || ''}
 												onChange={(e) =>
 													setEditingData({
@@ -180,10 +127,10 @@ function ClubsPage() {
 														nombre: e.target.value,
 													})
 												}
-												className={styles.formInput}
 											/>
-											<input
+											<InputField
 												type='text'
+												placeholder='Ciudad'
 												value={editingData.ciudad || ''}
 												onChange={(e) =>
 													setEditingData({
@@ -191,7 +138,6 @@ function ClubsPage() {
 														ciudad: e.target.value,
 													})
 												}
-												className={styles.formInput}
 											/>
 											<div className={styles.formActions}>
 												<Button
