@@ -10,6 +10,7 @@ function PartidoForm({
 	onSubmit,
 	initialData,
 	submitText = 'Guardar',
+	jugadores,
 }: PartidoFormProps) {
 	const { closePopup } = usePopupStore();
 	const [formData, setFormData] = useState<PartidoFormData>({
@@ -49,53 +50,69 @@ function PartidoForm({
 		<>
 			<div className={styles.section}>
 				<label className={styles.sectionLabel}>Pareja 1</label>
-				<InputField
-					type='number'
-					placeholder='ID Jugador 1'
-					value={formData.id_jugador1_pareja1.toString()}
+				<select
+					className={styles.selectField}
+					value={formData.id_jugador1_pareja1}
 					onChange={(e) =>
 						setFormData({
 							...formData,
-							id_jugador1_pareja1: parseInt(e.target.value) || 1,
+							id_jugador1_pareja1: parseInt(e.target.value),
 						})
-					}
-				/>
-				<InputField
-					type='number'
-					placeholder='ID Jugador 2'
-					value={formData.id_jugador2_pareja1.toString()}
+					}>
+					{jugadores.map((jugador) => (
+						<option key={jugador.id} value={jugador.id ?? 0}>
+							{jugador.apodo || jugador.nombre}
+						</option>
+					))}
+				</select>
+				<select
+					className={styles.selectField}
+					value={formData.id_jugador2_pareja1}
 					onChange={(e) =>
 						setFormData({
 							...formData,
-							id_jugador2_pareja1: parseInt(e.target.value) || 1,
+							id_jugador2_pareja1: parseInt(e.target.value),
 						})
-					}
-				/>
+					}>
+					{jugadores.map((jugador) => (
+						<option key={jugador.id} value={jugador.id ?? 0}>
+							{jugador.apodo || jugador.nombre}
+						</option>
+					))}
+				</select>
 			</div>
 			<div className={styles.section}>
 				<label className={styles.sectionLabel}>Pareja 2</label>
-				<InputField
-					type='number'
-					placeholder='ID Jugador 1'
-					value={formData.id_jugador1_pareja2.toString()}
+				<select
+					className={styles.selectField}
+					value={formData.id_jugador1_pareja2}
 					onChange={(e) =>
 						setFormData({
 							...formData,
-							id_jugador1_pareja2: parseInt(e.target.value) || 1,
+							id_jugador1_pareja2: parseInt(e.target.value),
 						})
-					}
-				/>
-				<InputField
-					type='number'
-					placeholder='ID Jugador 2'
-					value={formData.id_jugador2_pareja2.toString()}
+					}>
+					{jugadores.map((jugador) => (
+						<option key={jugador.id} value={jugador.id ?? 0}>
+							{jugador.apodo || jugador.nombre}
+						</option>
+					))}
+				</select>
+				<select
+					className={styles.selectField}
+					value={formData.id_jugador2_pareja2}
 					onChange={(e) =>
 						setFormData({
 							...formData,
-							id_jugador2_pareja2: parseInt(e.target.value) || 1,
+							id_jugador2_pareja2: parseInt(e.target.value),
 						})
-					}
-				/>
+					}>
+					{jugadores.map((jugador) => (
+						<option key={jugador.id} value={jugador.id ?? 0}>
+							{jugador.apodo || jugador.nombre}
+						</option>
+					))}
+				</select>
 			</div>
 			<InputField
 				type='number'

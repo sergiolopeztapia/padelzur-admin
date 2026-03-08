@@ -10,6 +10,7 @@ function PartidosPage() {
 		onAddPartido,
 		onEditPartido,
 		onDeletePartido,
+		getJugadorName,
 	} = usePartidosPage();
 
 	if (loading || error) {
@@ -41,15 +42,15 @@ function PartidosPage() {
 										<div className={styles.parejaSection}>
 											<p className={styles.parejaLabel}>Pareja 1</p>
 											<p className={styles.clubCity}>
-												Jugadores: {partido.id_jugador1_pareja1} &{' '}
-												{partido.id_jugador2_pareja1}
+												{getJugadorName(partido.id_jugador1_pareja1)} &{' '}
+												{getJugadorName(partido.id_jugador2_pareja1)}
 											</p>
 										</div>
 										<div className={styles.parejaSection}>
 											<p className={styles.parejaLabel}>Pareja 2</p>
 											<p className={styles.clubCity}>
-												Jugadores: {partido.id_jugador1_pareja2} &{' '}
-												{partido.id_jugador2_pareja2}
+												{getJugadorName(partido.id_jugador1_pareja2)} &{' '}
+												{getJugadorName(partido.id_jugador2_pareja2)}
 											</p>
 										</div>
 										<p className={styles.clubCity}>Pista: {partido.id_pista}</p>

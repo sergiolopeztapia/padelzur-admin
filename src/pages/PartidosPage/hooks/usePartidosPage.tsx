@@ -6,6 +6,7 @@ import usePopupStore from '@/stores/usePopupStore';
 import toast from 'react-hot-toast';
 import type { Partido, UsePartidosPageResult } from './usePartidosPage.types';
 import type { PartidoFormData } from '../components/PartidoForm.types';
+import type { Jugador } from '../../JugadoresPage/hooks/useJugadoresPage.types';
 
 export default function usePartidosPage(): UsePartidosPageResult {
 	const {
@@ -20,11 +21,26 @@ export default function usePartidosPage(): UsePartidosPageResult {
 		table: 'partidos',
 	});
 
+	const {
+		data: jugadoresData,
+		loading: jugadoresLoading,
+		fetchData: fetchJugadores,
+	} = useSupabase<Jugador>({
+		table: 'jugadores',
+	});
+
 	const { openPopup, closePopup } = usePopupStore();
 
 	useEffect(() => {
 		fetchData();
-	}, [fetchData]);
+		fetchJugadores();
+	}, [fetchData, fetchJugadores]);
+
+	const getJugadorName = (id: number): string => {
+		const jugador = jugadoresData?.find((j) => j.id === id);
+		if (!jugador) return `ID: ${id}`;
+		return jugador.apodo || jugador.nombre;
+	};
 
 	const mapFormDataToPartido = (formData: PartidoFormData) => ({
 		id_jugador1_pareja1: formData.id_jugador1_pareja1,
@@ -65,7 +81,12 @@ export default function usePartidosPage(): UsePartidosPageResult {
 	const onAddPartido = () => {
 		openPopup({
 			title: 'Nuevo Partido',
-			children: <PartidoForm onSubmit={handleAddPartido} />,
+			children: (
+				<PartidoForm
+					onSubmit={handleAddPartido}
+					jugadores={jugadoresData ?? []}
+				/>
+			),
 		});
 	};
 
@@ -88,6 +109,7 @@ export default function usePartidosPage(): UsePartidosPageResult {
 					onSubmit={async (formData: PartidoFormData) =>
 						handleEditPartido(partidoId, formData)
 					}
+					jugadores={jugadoresData ?? []}
 				/>
 			),
 		});
@@ -128,10 +150,12 @@ export default function usePartidosPage(): UsePartidosPageResult {
 
 	return {
 		partidos: data ?? [],
-		loading,
+		jugadores: jugadoresData ?? [],
+		loading: loading || jugadoresLoading,
 		error,
 		onAddPartido,
 		onEditPartido,
 		onDeletePartido,
+		getJugadorName,
 	};
 }
