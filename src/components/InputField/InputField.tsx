@@ -1,4 +1,4 @@
-import styles from '@/styles/dashboard.module.css';
+import styles from './InputField.module.css';
 import type { InputFieldProps } from './InputField.types';
 
 function InputField({
@@ -18,7 +18,7 @@ function InputField({
 	if (!hasIcons) {
 		return (
 			<input
-				className={styles['form-input']}
+				className={styles.formInput}
 				type={type}
 				placeholder={placeholder}
 				value={value}
@@ -54,7 +54,7 @@ function InputField({
 				</div>
 			)}
 			<input
-				className={styles['form-input']}
+				className={styles.formInput}
 				type={type}
 				placeholder={placeholder}
 				value={value}

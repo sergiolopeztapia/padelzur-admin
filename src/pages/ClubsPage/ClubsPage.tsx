@@ -32,7 +32,7 @@ function ClubsPage() {
 								<div key={club.id} className={styles.clubCard}>
 									<div className={styles.clubInfo}>
 										<h3 className={styles.clubName}>{club.nombre}</h3>
-										<p className={styles.clubCity}>📍 {club.ciudad}</p>
+										<p className={styles.clubCity}>{club.ciudad}</p>
 										<span className={styles.clubId}>ID: {club.id}</span>
 									</div>
 									<div className={styles.clubActions}>

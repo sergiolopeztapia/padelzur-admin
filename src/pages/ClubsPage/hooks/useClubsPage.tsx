@@ -3,9 +3,8 @@ import ClubForm from '../components/ClubForm';
 import ConfirmAction from '@/components/Confirmation/ConfirmAction';
 import { useSupabase } from '@/hooks/useSupabase';
 import usePopupStore from '@/stores/usePopupStore';
-import type { Club } from '@/types/Club.types';
 import toast from 'react-hot-toast';
-import type { UseClubsPageResult } from './useClubsPage.types';
+import type { Club, UseClubsPageResult } from './useClubsPage.types';
 import type { ClubFormData } from '../components/ClubForm.types';
 
 export default function useClubsPage(): UseClubsPageResult {

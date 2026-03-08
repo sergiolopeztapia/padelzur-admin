@@ -1,4 +1,8 @@
-import type { Club } from '@/types/Club.types';
+export type Club = Readonly<{
+	id?: number | null; // Permitir null para nuevos registros sin ID asignado
+	nombre: string;
+	ciudad: string;
+}>;
 
 export type UseClubsPageResult = Readonly<{
 	clubs: Club[];

@@ -1,9 +1,35 @@
 :root {
 	font-family: 'Roboto', sans-serif;
+	--bg-primary: #c8e600;
+	--bg-secondary: #e7f96a;
+	--card-bg: #f7ffd1;
+	--glass: rgba(247, 255, 209, 0.8);
+	--text-primary: #0f2f10;
+	--text-secondary: #2f5c24;
+	--muted: #4b7a34;
+	--accent: #006633;
+	--accent-2: #7fba00;
+	--border: #b6d700;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+	width: 100%;
+	max-width: 100%;
+	overflow-x: hidden;
 }
 
 body {
-	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 	background: var(--bg-secondary);

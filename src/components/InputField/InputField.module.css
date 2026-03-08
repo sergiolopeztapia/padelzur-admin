@@ -1,0 +1,20 @@
+.formInput {
+	width: 100%;
+	padding: 12px 14px;
+	border-radius: 8px;
+	border: 1px solid var(--border);
+	background: var(--card-bg);
+	color: var(--text-primary);
+	font-size: 0.95rem;
+	box-sizing: border-box;
+}
+
+.formInput::placeholder {
+	color: var(--text-secondary);
+}
+
+.formInput:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+	border-color: var(--accent);
+}

@@ -1,5 +1,8 @@
+export type HeaderSection = 'clubs' | 'jugadores';
+
 export type HeaderProps = Readonly<{
-	onLogout: () => void | Promise<void>;
+	activeSection: HeaderSection;
+	onSectionChange: (section: HeaderSection) => void;
 }>;
 
 export type UseHeaderResult = Readonly<{

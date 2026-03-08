@@ -1,38 +1,86 @@
 .container {
 	width: 100%;
-	padding: 0 1rem;
+	padding: 10px 20px;
 	display: flex;
-	text-align: center;
+	gap: 16px;
 	color: var(--text-primary);
-	justify-content: space-between;
 	align-items: center;
-	flex-wrap: wrap;
 	background: var(--glass);
 	border-bottom: 1px solid var(--border);
 	backdrop-filter: blur(10px);
+	box-shadow: 0 8px 20px rgba(0, 76, 38, 0.1);
 }
 
 .headerLeft {
-	flex: 1;
-	text-align: center;
+	display: flex;
+	align-items: center;
+	min-width: 0;
+}
+
+.actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.sectionSwitcher {
+	display: flex;
+	gap: 8px;
+	padding: 6px;
+	border-radius: 12px;
+	border: 1px solid var(--border);
+	background: rgba(247, 255, 209, 0.55);
+}
+
+.navButton {
+	min-width: 112px;
+}
+
+.logoutButton {
+	min-width: 150px;
 }
 
 @media (max-width: 720px) {
 	.container {
-		padding: 14px 16px;
-		justify-content: center;
-		text-align: center;
+		padding: 12px 14px;
 		flex-direction: column;
-		gap: 12px;
+		align-items: stretch;
+		gap: 10px;
 	}
+
 	.headerLeft {
-		text-align: center;
+		justify-content: center;
+	}
+
+	.actions {
+		margin-left: 0;
+		width: 100%;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.sectionSwitcher {
+		width: 100%;
+	}
+
+	.sectionSwitcher :global(button) {
+		flex: 1;
+	}
+
+	.logoutButton {
+		width: 100%;
 	}
 }
 
 @media (max-width: 480px) {
 	.container {
-		padding: 12px 14px;
-		gap: 10px;
+		padding: 10px 12px;
+	}
+
+	.navButton {
+		min-width: 0;
 	}
 }
