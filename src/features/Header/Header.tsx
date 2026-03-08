@@ -32,6 +32,12 @@ function Header({ activeSection, onSectionChange }: HeaderProps) {
 						onClick={() => onSectionChange('pistas')}>
 						Pistas
 					</Button>
+					<Button
+						className={styles.navButton}
+						variant={activeSection === 'partidos' ? 'primary' : 'secondary'}
+						onClick={() => onSectionChange('partidos')}>
+						Partidos
+					</Button>
 				</div>
 				<Button
 					className={styles.logoutButton}

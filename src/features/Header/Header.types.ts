@@ -1,4 +1,4 @@
-export type HeaderSection = 'clubs' | 'jugadores' | 'pistas';
+export type HeaderSection = 'clubs' | 'jugadores' | 'pistas' | 'partidos';
 
 export type HeaderProps = Readonly<{
 	activeSection: HeaderSection;
