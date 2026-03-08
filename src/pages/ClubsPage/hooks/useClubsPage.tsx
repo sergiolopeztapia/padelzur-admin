@@ -1,24 +1,12 @@
 import { useEffect } from 'react';
-import { ClubForm } from '../components/ClubForm';
-import { ConfirmAction } from '@/components/Confirmation/ConfirmAction';
+import ClubForm from '../components/ClubForm';
+import ConfirmAction from '@/components/Confirmation/ConfirmAction';
 import { useSupabase } from '@/hooks/useSupabase';
 import usePopupStore from '@/stores/usePopupStore';
 import type { Club } from '@/types/Club.types';
 import toast from 'react-hot-toast';
-
-type ClubFormData = {
-	nombre: string;
-	ciudad: string;
-};
-
-type UseClubsPageResult = {
-	clubs: Club[];
-	loading: boolean;
-	error: Error | null;
-	onAddClub: () => void;
-	onEditClub: (club: Club) => void;
-	onDeleteClub: (club: Club) => void;
-};
+import type { UseClubsPageResult } from './useClubsPage.types';
+import type { ClubFormData } from '../components/ClubForm.types';
 
 export default function useClubsPage(): UseClubsPageResult {
 	const {

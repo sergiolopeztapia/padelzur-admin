@@ -1,7 +1,7 @@
 import styles from '@/styles/dashboard.module.css';
 import type { InputFieldProps } from './InputField.types';
 
-export function InputField({
+function InputField({
 	type = 'text',
 	placeholder,
 	value,
@@ -85,3 +85,4 @@ export function InputField({
 		</div>
 	);
 }
+export default InputField;

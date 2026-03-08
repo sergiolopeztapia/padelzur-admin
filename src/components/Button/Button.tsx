@@ -3,7 +3,7 @@ import * as LucideIcons from 'lucide-react';
 import styles from './Button.module.css';
 import type { ButtonProps } from './Button.types';
 
-export function Button({
+function Button({
 	variant = 'primary',
 	size = 'default',
 	children,
@@ -35,3 +35,5 @@ export function Button({
 		</button>
 	);
 }
+
+export default Button;

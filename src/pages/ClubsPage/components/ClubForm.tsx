@@ -1,21 +1,11 @@
 import { useState } from 'react';
-import { Button } from '@/components/Button/Button';
-import { InputField } from '@/components/InputField/InputField';
+import Button from '@/components/Button/Button';
+import InputField from '@/components/InputField/InputField';
 import usePopupStore from '@/stores/usePopupStore';
 import toast from 'react-hot-toast';
+import type { ClubFormData, ClubFormProps } from './ClubForm.types';
 
-type ClubFormData = {
-	nombre: string;
-	ciudad: string;
-};
-
-type ClubFormProps = {
-	onSubmit: (data: ClubFormData) => Promise<void>;
-	initialData?: ClubFormData;
-	submitText?: string;
-};
-
-export function ClubForm({
+function ClubForm({
 	onSubmit,
 	initialData,
 	submitText = 'Guardar',
@@ -39,22 +29,18 @@ export function ClubForm({
 
 	return (
 		<>
-			<div style={{ marginBottom: '1rem' }}>
-				<InputField
-					type='text'
-					placeholder='Nombre del club'
-					value={formData.nombre}
-					onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
-				/>
-			</div>
-			<div style={{ marginBottom: '1rem' }}>
-				<InputField
-					type='text'
-					placeholder='Ciudad'
-					value={formData.ciudad}
-					onChange={(e) => setFormData({ ...formData, ciudad: e.target.value })}
-				/>
-			</div>
+			<InputField
+				type='text'
+				placeholder='Nombre del club'
+				value={formData.nombre}
+				onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+			/>
+			<InputField
+				type='text'
+				placeholder='Ciudad'
+				value={formData.ciudad}
+				onChange={(e) => setFormData({ ...formData, ciudad: e.target.value })}
+			/>
 			<div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
 				<Button variant='success' onClick={handleSubmit}>
 					{submitText}
@@ -66,3 +52,5 @@ export function ClubForm({
 		</>
 	);
 }
+
+export default ClubForm;

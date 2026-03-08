@@ -1,4 +1,4 @@
-import { Logo } from '@/components/Logo/Logo';
+import Logo from '@/components/Logo/Logo';
 import LoginForm from '@/features/LoginForm/LoginForm';
 import styles from './LoginPage.module.css';
 

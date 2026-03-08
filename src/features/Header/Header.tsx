@@ -1,5 +1,5 @@
-import { Button } from '@/components/Button/Button';
-import { Logo } from '@/components/Logo/Logo';
+import Button from '@/components/Button/Button';
+import Logo from '@/components/Logo/Logo';
 import styles from './Header.module.css';
 import useHeader from './hooks/useHeader';
 

@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 
-export type PopupConfig = {
+export type PopupConfig = Readonly<{
 	title?: string;
 	children: ReactNode;
 	onOpen?: () => void;
 	onClose?: () => void;
-};
+}>;
 
-export type PopupState = {
+export type PopupState = Readonly<{
 	isOpen: boolean;
 	title?: string;
 	children: ReactNode | null;
@@ -15,4 +15,4 @@ export type PopupState = {
 	onCloseCallback?: () => void;
 	openPopup: (config: PopupConfig) => void;
 	closePopup: () => void;
-};
+}>;

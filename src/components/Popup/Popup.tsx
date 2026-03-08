@@ -1,8 +1,8 @@
-import { Button } from '@/components/Button/Button';
+import Button from '@/components/Button/Button';
 import styles from './Popup.module.css';
 import usePopupStore from '@/stores/usePopupStore';
 
-export function Popup() {
+function Popup() {
 	const { isOpen, title, children, closePopup } = usePopupStore();
 
 	if (!isOpen) return null;
@@ -25,3 +25,5 @@ export function Popup() {
 		</div>
 	);
 }
+
+export default Popup;

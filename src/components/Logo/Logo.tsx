@@ -2,7 +2,7 @@ import pelotaImg from '@/assets/pelota.png';
 import type { LogoProps } from './Logo.types';
 import styles from './Logo.module.css';
 
-export function Logo({ size = 50 }: LogoProps) {
+function Logo({ size = 50 }: LogoProps) {
 	return (
 		<h1 className={styles.logo} style={{ fontSize: '3rem' }}>
 			<img
@@ -17,3 +17,5 @@ export function Logo({ size = 50 }: LogoProps) {
 		</h1>
 	);
 }
+
+export default Logo;

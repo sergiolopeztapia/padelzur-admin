@@ -1,5 +1,5 @@
-import { Button } from '@/components/Button/Button';
-import { InputField } from '@/components/InputField/InputField';
+import Button from '@/components/Button/Button';
+import InputField from '@/components/InputField/InputField';
 import { Lock, Mail } from 'lucide-react';
 import styles from './LoginForm.module.css';
 import toast from 'react-hot-toast';

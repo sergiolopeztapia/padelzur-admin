@@ -1,16 +1,8 @@
-import type { ReactNode } from 'react';
-import { Button } from '@/components/Button/Button';
+import Button from '@/components/Button/Button';
 import toast from 'react-hot-toast';
+import type { ConfirmActionProps } from './ConfirmAction.types';
 
-type ConfirmActionProps = {
-	message: ReactNode;
-	onConfirm: () => Promise<void> | void;
-	onCancel: () => void;
-	confirmText?: string;
-	cancelText?: string;
-};
-
-export function ConfirmAction({
+function ConfirmAction({
 	message,
 	onConfirm,
 	onCancel,
@@ -44,3 +36,5 @@ export function ConfirmAction({
 		</>
 	);
 }
+
+export default ConfirmAction;
