@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import ClubsPage from './pages/ClubsPage/ClubsPage';
 import JugadoresPage from './pages/JugadoresPage/JugadoresPage';
+import PistasPage from './pages/PistasPage/PistasPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import useSessionStore from '@/stores/useSessionStore';
 import Popup from '@/components/Popup/Popup';
@@ -17,7 +18,9 @@ function App() {
 			{session ? (
 				<>
 					<Header activeSection={section} onSectionChange={setSection} />
-					{section === 'clubs' ? <ClubsPage /> : <JugadoresPage />}
+					{section === 'clubs' && <ClubsPage />}
+					{section === 'jugadores' && <JugadoresPage />}
+					{section === 'pistas' && <PistasPage />}
 				</>
 			) : (
 				<LoginPage />
