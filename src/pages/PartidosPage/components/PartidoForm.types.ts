@@ -9,6 +9,7 @@ export type PartidoFormData = {
 	id_jugador2_pareja2: number;
 	id_pista: number;
 	id_estado: number;
+	fecha: string;
 };
 
 export type PartidoFormProps = Readonly<{

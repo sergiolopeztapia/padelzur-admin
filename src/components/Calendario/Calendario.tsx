@@ -4,16 +4,18 @@ import type { CalendarioProps } from './Calendario.types';
 function Calendario({
 	value,
 	onChange,
+	type = 'date',
 	disabled = false,
 	required = false,
 	name,
 	min,
 	max,
+	step,
 }: CalendarioProps) {
 	return (
 		<input
 			className={styles.formInput}
-			type='date'
+			type={type}
 			value={value}
 			onChange={onChange}
 			disabled={disabled}
@@ -21,6 +23,7 @@ function Calendario({
 			name={name}
 			min={min}
 			max={max}
+			step={step}
 		/>
 	);
 }

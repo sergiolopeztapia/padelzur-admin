@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+.resultadoContainer {
+	margin-top: 10px;
+	padding: 10px;
+	border-radius: 8px;
+	background-color: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.resultadoTitle {
+	font-size: 0.82rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.45px;
+	color: var(--accent);
+	margin: 0 0 8px 0;
+}
+
+.modeRow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.modeLabel {
+	font-size: 0.78rem;
+	font-weight: 700;
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.35px;
+}
+
+.modeSelect {
+	padding: 6px 10px;
+	border-radius: 8px;
+	border: 1px solid var(--border);
+	background: var(--card-bg);
+	color: var(--text-primary);
+	font-size: 0.82rem;
+	font-family: 'Orbitron', sans-serif;
+}
+
+.resultadoGrid {
+	display: grid;
+	grid-template-columns: minmax(130px, 1.8fr) repeat(3, minmax(56px, 1fr));
+	gap: 6px;
+	align-items: center;
+}
+
+.resultadoGridGames {
+	grid-template-columns: minmax(130px, 1.8fr) minmax(84px, 1fr);
+}
+
+.resultadoHeader {
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-align: center;
+	color: var(--text-secondary);
+}
+
+.resultadoHeaderName {
+	text-align: left;
+}
+
+.parejaName {
+	font-size: 0.82rem;
+	line-height: 1.2;
+	color: var(--text-primary);
+}
+
+.setSelect {
+	width: 100%;
+	padding: 7px 28px 7px 10px;
+	border-radius: 8px;
+	border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--border));
+	background:
+		linear-gradient(45deg, transparent 50%, var(--accent) 50%) calc(100% - 14px)
+			calc(50% - 2px) / 6px 6px no-repeat,
+		linear-gradient(135deg, var(--accent) 50%, transparent 50%) calc(100% - 9px)
+			calc(50% - 2px) / 6px 6px no-repeat,
+		linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--card-bg) 88%, white 12%) 0%,
+			var(--card-bg) 100%
+		);
+	color: var(--text-primary);
+	font-size: 0.82rem;
+	font-family: 'Orbitron', sans-serif;
+	font-weight: 500;
+	letter-spacing: 0.25px;
+	box-sizing: border-box;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	cursor: pointer;
+	transition:
+		border-color 0.2s ease,
+		box-shadow 0.2s ease,
+		transform 0.2s ease;
+}
+
+.setSelect:hover {
+	border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
+
+.setSelect:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+	border-color: var(--accent);
+	transform: translateY(-1px);
+}
+
+.setSelect:disabled {
+	opacity: 0.65;
+	cursor: not-allowed;
+}
+
+.setSelect option {
+	font-family: 'Orbitron', sans-serif;
+}
+
+.gamesInputWrap {
+	width: 100%;
+}
+
+.gamesInputWrap input {
+	font-family: 'Orbitron', sans-serif;
+	font-size: 0.82rem;
+	font-weight: 500;
+	text-align: center;
+}
+
+.resultadoActions {
+	margin-top: 8px;
+	display: flex;
+	justify-content: flex-end;
+}

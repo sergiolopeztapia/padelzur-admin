@@ -9,6 +9,7 @@ export type Partido = Readonly<{
 	id_jugador2_pareja2: number;
 	id_pista: number;
 	id_estado: number;
+	fecha?: string | null;
 }>;
 
 export type PartidoEstado = Readonly<{
@@ -17,6 +18,30 @@ export type PartidoEstado = Readonly<{
 	descripcion?: string | null;
 }> &
 	Record<string, unknown>;
+
+export type PartidoResultado = Readonly<{
+	id?: number | null;
+	id_partido: number;
+	pareja1_set1?: number | null;
+	pareja1_set2?: number | null;
+	pareja1_set3?: number | null;
+	pareja2_set1?: number | null;
+	pareja2_set2?: number | null;
+	pareja2_set3?: number | null;
+}>;
+
+export type PartidoResultadoSetField =
+	| 'pareja1_set1'
+	| 'pareja1_set2'
+	| 'pareja1_set3'
+	| 'pareja2_set1'
+	| 'pareja2_set2'
+	| 'pareja2_set3';
+
+export type PartidoResultadoDraft = Record<
+	PartidoResultadoSetField,
+	number | null
+>;
 
 export type UsePartidosPageResult = Readonly<{
 	partidos: Partido[];
@@ -31,4 +56,9 @@ export type UsePartidosPageResult = Readonly<{
 	getJugadorName: (id: number) => string;
 	getPistaLabel: (id: number) => string;
 	getEstadoLabel: (id: number) => string;
+	getResultadoByPartidoId: (partidoId: number) => PartidoResultado | undefined;
+	onUpsertResultado: (
+		partidoId: number,
+		resultado: PartidoResultadoDraft,
+	) => Promise<void>;
 }>;

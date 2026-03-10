@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import type {
 	Partido,
 	PartidoEstado,
+	PartidoResultadoDraft,
+	PartidoResultado,
 	UsePartidosPageResult,
 } from './usePartidosPage.types';
 import type { PartidoFormData } from '../components/PartidoForm.types';
@@ -59,6 +61,15 @@ export default function usePartidosPage(): UsePartidosPageResult {
 		table: 'clubes',
 	});
 
+	const {
+		data: resultadosData,
+		fetchData: fetchResultados,
+		insert: insertResultado,
+		update: updateResultado,
+	} = useSupabase<PartidoResultado>({
+		table: 'partidos_resultados',
+	});
+
 	const { openPopup, closePopup } = usePopupStore();
 
 	useEffect(() => {
@@ -67,7 +78,15 @@ export default function usePartidosPage(): UsePartidosPageResult {
 		fetchPistas();
 		fetchEstados();
 		fetchClubes();
-	}, [fetchData, fetchJugadores, fetchPistas, fetchEstados, fetchClubes]);
+		fetchResultados();
+	}, [
+		fetchData,
+		fetchJugadores,
+		fetchPistas,
+		fetchEstados,
+		fetchClubes,
+		fetchResultados,
+	]);
 
 	const getJugadorName = (id: number): string => {
 		const jugador = jugadoresData?.find((j) => j.id === id);
@@ -107,6 +126,39 @@ export default function usePartidosPage(): UsePartidosPageResult {
 		return 'Sin estado';
 	};
 
+	const getResultadoByPartidoId = (
+		partidoId: number,
+	): PartidoResultado | undefined =>
+		resultadosData?.find((resultado) => resultado.id_partido === partidoId);
+
+	const onUpsertResultado = async (
+		partidoId: number,
+		resultado: PartidoResultadoDraft,
+	) => {
+		try {
+			const existingResultado = getResultadoByPartidoId(partidoId);
+			const payload: Partial<PartidoResultado> = { ...resultado };
+
+			if (existingResultado?.id != null) {
+				await updateResultado(existingResultado.id, payload);
+				return;
+			}
+
+			await insertResultado([
+				{
+					id_partido: partidoId,
+					...payload,
+				},
+			]);
+		} catch (resultError) {
+			toast.error(
+				resultError instanceof Error
+					? resultError.message
+					: 'No se pudo guardar el resultado',
+			);
+		}
+	};
+
 	const mapFormDataToPartido = (formData: PartidoFormData) => ({
 		id_jugador1_pareja1: formData.id_jugador1_pareja1,
 		id_jugador2_pareja1: formData.id_jugador2_pareja1,
@@ -114,6 +166,7 @@ export default function usePartidosPage(): UsePartidosPageResult {
 		id_jugador2_pareja2: formData.id_jugador2_pareja2,
 		id_pista: formData.id_pista,
 		id_estado: formData.id_estado,
+		fecha: new Date(formData.fecha).toISOString(),
 	});
 
 	const handleAddPartido = async (formData: PartidoFormData) => {
@@ -173,6 +226,7 @@ export default function usePartidosPage(): UsePartidosPageResult {
 						id_jugador2_pareja2: partido.id_jugador2_pareja2,
 						id_pista: partido.id_pista,
 						id_estado: partido.id_estado,
+						fecha: partido.fecha ?? '',
 					}}
 					onSubmit={async (formData: PartidoFormData) =>
 						handleEditPartido(partidoId, formData)
@@ -237,5 +291,7 @@ export default function usePartidosPage(): UsePartidosPageResult {
 		getJugadorName,
 		getPistaLabel,
 		getEstadoLabel,
+		getResultadoByPartidoId,
+		onUpsertResultado,
 	};
 }

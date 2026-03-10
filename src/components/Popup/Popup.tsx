@@ -8,8 +8,8 @@ function Popup() {
 	if (!isOpen) return null;
 
 	return (
-		<div className={styles.container} onClick={closePopup}>
-			<div className={styles.content} onClick={(e) => e.stopPropagation()}>
+		<div className={styles.container}>
+			<div className={styles.content}>
 				<div className={styles.header}>
 					{title ? <h3 className={styles.title}>{title}</h3> : <span />}
 					<Button
@@ -17,8 +17,9 @@ function Popup() {
 						size='sm'
 						type='button'
 						iconName='X'
-						onClick={closePopup}
-					/>
+						onClick={closePopup}>
+						Close
+					</Button>
 				</div>
 				<div className={styles.body}>{children}</div>
 			</div>

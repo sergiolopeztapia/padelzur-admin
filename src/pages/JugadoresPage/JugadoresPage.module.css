@@ -33,6 +33,13 @@
 	flex-wrap: wrap;
 }
 
+.searchInputWrapper {
+	width: min(420px, 100%);
+	max-width: 420px;
+	flex: 1;
+	min-width: 220px;
+}
+
 .clubsGrid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -41,6 +48,9 @@
 }
 
 .clubCard {
+	width: 100%;
+	max-width: 420px;
+	justify-self: center;
 	padding: 18px;
 	border-radius: 12px;
 	transition:
@@ -193,6 +203,11 @@
 		gap: 8px;
 		flex-direction: column;
 		align-items: stretch;
+	}
+
+	.searchInputWrapper {
+		width: 100%;
+		max-width: 100%;
 	}
 
 	.actionBar button {

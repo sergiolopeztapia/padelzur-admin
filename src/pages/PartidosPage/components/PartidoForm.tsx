@@ -1,10 +1,20 @@
 import { useState } from 'react';
 import Button from '@/components/Button/Button';
+import Calendario from '@/components/Calendario/Calendario';
 import InputSelect from '@/components/InputSelect/InputSelect';
 import usePopupStore from '@/stores/usePopupStore';
 import toast from 'react-hot-toast';
 import type { PartidoFormData, PartidoFormProps } from './PartidoForm.types';
 import styles from './PartidoForm.module.css';
+
+const toDateTimeLocalValue = (value?: string | null): string => {
+	if (!value) return '';
+	const date = new Date(value);
+	if (Number.isNaN(date.getTime())) return '';
+
+	const pad = (num: number) => String(num).padStart(2, '0');
+	return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+};
 
 function PartidoForm({
 	onSubmit,
@@ -26,6 +36,7 @@ function PartidoForm({
 		id_jugador2_pareja2: initialData?.id_jugador2_pareja2 ?? 1,
 		id_pista: initialData?.id_pista ?? firstPistaId,
 		id_estado: initialData?.id_estado ?? firstEstadoId,
+		fecha: toDateTimeLocalValue(initialData?.fecha),
 	});
 
 	const jugadorOptions = jugadores.map((jugador) => ({
@@ -64,7 +75,8 @@ function PartidoForm({
 			!formData.id_jugador1_pareja2 ||
 			!formData.id_jugador2_pareja2 ||
 			!formData.id_pista ||
-			!formData.id_estado
+			!formData.id_estado ||
+			!formData.fecha
 		) {
 			toast.error('Todos los campos son requeridos');
 			return;
@@ -151,6 +163,18 @@ function PartidoForm({
 					})
 				}
 				placeholder='Selecciona estado'
+				required
+			/>
+			<Calendario
+				type='datetime-local'
+				value={formData.fecha}
+				onChange={(e) =>
+					setFormData({
+						...formData,
+						fecha: e.target.value,
+					})
+				}
+				name='fecha-partido'
 				required
 			/>
 			<div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
