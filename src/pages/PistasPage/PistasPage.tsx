@@ -3,8 +3,15 @@ import Button from '@/components/Button/Button';
 import usePistasPage from './hooks/usePistasPage';
 
 function PistasPage() {
-	const { pistas, loading, error, onAddPista, onEditPista, onDeletePista } =
-		usePistasPage();
+	const {
+		pistas,
+		loading,
+		error,
+		onAddPista,
+		onEditPista,
+		onDeletePista,
+		getClubLabel,
+	} = usePistasPage();
 
 	if (loading || error) {
 		return (
@@ -32,6 +39,9 @@ function PistasPage() {
 								<div key={pista.id} className={styles.clubCard}>
 									<div className={styles.clubInfo}>
 										<h3 className={styles.clubName}>{pista.nombre}</h3>
+										<p className={styles.clubCity}>
+											Club: {getClubLabel(pista.id_club)}
+										</p>
 										<p className={styles.clubCity}>
 											Superficie:{' '}
 											<span className={styles.pistaSuperficie}>

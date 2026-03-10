@@ -1,4 +1,6 @@
 import type { Jugador } from '../../JugadoresPage/hooks/useJugadoresPage.types';
+import type { Pista } from '../../PistasPage/hooks/usePistasPage.types';
+import type { PartidoEstado } from '../hooks/usePartidosPage.types';
 
 export type PartidoFormData = {
 	id_jugador1_pareja1: number;
@@ -14,4 +16,7 @@ export type PartidoFormProps = Readonly<{
 	initialData?: PartidoFormData;
 	submitText?: string;
 	jugadores: Jugador[];
+	pistas: Pista[];
+	estados: PartidoEstado[];
+	getPistaLabel: (id: number) => string;
 }>;

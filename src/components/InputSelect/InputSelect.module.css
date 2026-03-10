@@ -1,0 +1,48 @@
+.selectWrapper {
+	position: relative;
+	width: 100%;
+}
+
+.selectWrapper::after {
+	content: '';
+	position: absolute;
+	right: 14px;
+	top: 50%;
+	width: 8px;
+	height: 8px;
+	border-right: 2px solid var(--text-secondary);
+	border-bottom: 2px solid var(--text-secondary);
+	transform: translateY(-60%) rotate(45deg);
+	pointer-events: none;
+}
+
+.formSelect {
+	width: 100%;
+	padding: 12px 40px 12px 14px;
+	border-radius: 8px;
+	border: 1px solid var(--border);
+	background: var(--card-bg);
+	color: var(--text-primary);
+	font-size: 0.95rem;
+	box-sizing: border-box;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	cursor: pointer;
+}
+
+.formSelect:focus {
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+	border-color: var(--accent);
+}
+
+.formSelect:disabled {
+	opacity: 0.75;
+	cursor: not-allowed;
+}
+
+.formSelect option {
+	background: var(--card-bg);
+	color: var(--text-primary);
+}

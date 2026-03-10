@@ -11,6 +11,8 @@ function PartidosPage() {
 		onEditPartido,
 		onDeletePartido,
 		getJugadorName,
+		getPistaLabel,
+		getEstadoLabel,
 	} = usePartidosPage();
 
 	if (loading || error) {
@@ -53,9 +55,11 @@ function PartidosPage() {
 												{getJugadorName(partido.id_jugador2_pareja2)}
 											</p>
 										</div>
-										<p className={styles.clubCity}>Pista: {partido.id_pista}</p>
 										<p className={styles.clubCity}>
-											Estado: {partido.id_estado}
+											Pista: {getPistaLabel(partido.id_pista)}
+										</p>
+										<p className={styles.clubCity}>
+											Estado: {getEstadoLabel(partido.id_estado)}
 										</p>
 										<span className={styles.clubId}>ID: {partido.id}</span>
 									</div>

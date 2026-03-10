@@ -31,8 +31,8 @@ export function useSupabase<T>({
 		try {
 			const { data: result, error: fetchError } = await supabase
 				.from(table)
-				.select('*');
-
+				.select('*')
+				.order('id', { ascending: true });
 			if (fetchError) throw new Error(fetchError.message);
 			setData(result);
 		} catch (err) {

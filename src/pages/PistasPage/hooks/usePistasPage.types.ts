@@ -24,4 +24,5 @@ export type UsePistasPageResult = Readonly<{
 	onAddPista: () => void;
 	onEditPista: (pista: Pista) => void;
 	onDeletePista: (pista: Pista) => void;
+	getClubLabel: (id: number) => string;
 }>;

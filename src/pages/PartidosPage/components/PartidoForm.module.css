@@ -14,33 +14,4 @@
 	color: var(--accent);
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
-
-	.selectField {
-		width: 100%;
-		padding: 0.75rem;
-		margin-bottom: 0.5rem;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		border-radius: 8px;
-		background-color: rgba(255, 255, 255, 0.05);
-		color: var(--text-primary);
-		font-size: 1rem;
-		font-family: inherit;
-		outline: none;
-		transition: all 0.3s ease;
-	}
-
-	.selectField:focus {
-		border-color: var(--primary-color);
-		background-color: rgba(255, 255, 255, 0.08);
-		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-	}
-
-	.selectField:hover {
-		background-color: rgba(255, 255, 255, 0.07);
-	}
-
-	.selectField option {
-		background-color: var(--bg-primary);
-		color: var(--text-primary);
-	}
 }

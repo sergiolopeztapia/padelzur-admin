@@ -4,9 +4,15 @@ import ConfirmAction from '@/components/Confirmation/ConfirmAction';
 import { useSupabase } from '@/hooks/useSupabase';
 import usePopupStore from '@/stores/usePopupStore';
 import toast from 'react-hot-toast';
-import type { Partido, UsePartidosPageResult } from './usePartidosPage.types';
+import type {
+	Partido,
+	PartidoEstado,
+	UsePartidosPageResult,
+} from './usePartidosPage.types';
 import type { PartidoFormData } from '../components/PartidoForm.types';
 import type { Jugador } from '../../JugadoresPage/hooks/useJugadoresPage.types';
+import type { Pista } from '../../PistasPage/hooks/usePistasPage.types';
+import type { Club } from '../../ClubsPage/hooks/useClubsPage.types';
 
 export default function usePartidosPage(): UsePartidosPageResult {
 	const {
@@ -29,17 +35,76 @@ export default function usePartidosPage(): UsePartidosPageResult {
 		table: 'jugadores',
 	});
 
+	const {
+		data: pistasData,
+		loading: pistasLoading,
+		fetchData: fetchPistas,
+	} = useSupabase<Pista>({
+		table: 'pistas',
+	});
+
+	const {
+		data: estadosData,
+		loading: estadosLoading,
+		fetchData: fetchEstados,
+	} = useSupabase<PartidoEstado>({
+		table: 'partidos_estados',
+	});
+
+	const {
+		data: clubesData,
+		loading: clubesLoading,
+		fetchData: fetchClubes,
+	} = useSupabase<Club>({
+		table: 'clubes',
+	});
+
 	const { openPopup, closePopup } = usePopupStore();
 
 	useEffect(() => {
 		fetchData();
 		fetchJugadores();
-	}, [fetchData, fetchJugadores]);
+		fetchPistas();
+		fetchEstados();
+		fetchClubes();
+	}, [fetchData, fetchJugadores, fetchPistas, fetchEstados, fetchClubes]);
 
 	const getJugadorName = (id: number): string => {
 		const jugador = jugadoresData?.find((j) => j.id === id);
 		if (!jugador) return `ID: ${id}`;
 		return jugador.apodo || jugador.nombre;
+	};
+
+	const getClubLabel = (id: number): string => {
+		const club = clubesData?.find((item) => item.id === id);
+		if (!club) return `Club ID: ${id}`;
+		return `${club.nombre} (${club.ciudad})`;
+	};
+
+	const getPistaLabel = (id: number): string => {
+		const pista = pistasData?.find((p) => p.id === id);
+		if (!pista) return `ID: ${id}`;
+
+		const clubLabel = getClubLabel(pista.id_club);
+		return `${pista.nombre} (${pista.superficie} · ${pista.tipo}) - ${clubLabel}`;
+	};
+
+	const getEstadoLabel = (id: number): string => {
+		const estado = estadosData?.find((item) => item.id === id);
+		if (!estado) return 'Sin estado';
+
+		if (typeof estado.nombre === 'string' && estado.nombre.trim().length > 0) {
+			return estado.nombre;
+		}
+
+		if (
+			typeof estado['estado'] === 'string' &&
+			estado['estado'].trim().length > 0
+		) {
+			return estado['estado'];
+		}
+
+		return 'Sin estado';
 	};
 
 	const mapFormDataToPartido = (formData: PartidoFormData) => ({
@@ -85,6 +150,9 @@ export default function usePartidosPage(): UsePartidosPageResult {
 				<PartidoForm
 					onSubmit={handleAddPartido}
 					jugadores={jugadoresData ?? []}
+					pistas={pistasData ?? []}
+					estados={estadosData ?? []}
+					getPistaLabel={getPistaLabel}
 				/>
 			),
 		});
@@ -110,6 +178,9 @@ export default function usePartidosPage(): UsePartidosPageResult {
 						handleEditPartido(partidoId, formData)
 					}
 					jugadores={jugadoresData ?? []}
+					pistas={pistasData ?? []}
+					estados={estadosData ?? []}
+					getPistaLabel={getPistaLabel}
 				/>
 			),
 		});
@@ -151,11 +222,20 @@ export default function usePartidosPage(): UsePartidosPageResult {
 	return {
 		partidos: data ?? [],
 		jugadores: jugadoresData ?? [],
-		loading: loading || jugadoresLoading,
+		pistas: pistasData ?? [],
+		estados: estadosData ?? [],
+		loading:
+			loading ||
+			jugadoresLoading ||
+			pistasLoading ||
+			estadosLoading ||
+			clubesLoading,
 		error,
 		onAddPartido,
 		onEditPartido,
 		onDeletePartido,
 		getJugadorName,
+		getPistaLabel,
+		getEstadoLabel,
 	};
 }

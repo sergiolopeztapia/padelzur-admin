@@ -6,6 +6,7 @@ import usePopupStore from '@/stores/usePopupStore';
 import toast from 'react-hot-toast';
 import type { Pista, UsePistasPageResult } from './usePistasPage.types';
 import type { PistaFormData } from '../components/PistaForm.types';
+import type { Club } from '../../ClubsPage/hooks/useClubsPage.types';
 
 export default function usePistasPage(): UsePistasPageResult {
 	const {
@@ -20,14 +21,29 @@ export default function usePistasPage(): UsePistasPageResult {
 		table: 'pistas',
 	});
 
+	const {
+		data: clubesData,
+		loading: clubesLoading,
+		fetchData: fetchClubes,
+	} = useSupabase<Club>({
+		table: 'clubes',
+	});
+
 	const { openPopup, closePopup } = usePopupStore();
 
 	useEffect(() => {
 		fetchData();
-	}, [fetchData]);
+		fetchClubes();
+	}, [fetchData, fetchClubes]);
+
+	const getClubLabel = (id: number): string => {
+		const club = clubesData?.find((item) => item.id === id);
+		if (!club) return `Club ID: ${id}`;
+		return `${club.nombre} (${club.ciudad})`;
+	};
 
 	const mapFormDataToPista = (formData: PistaFormData) => ({
-		id_club: 1, // TODO: Get from session or club context
+		id_club: formData.id_club,
 		nombre: formData.nombre,
 		superficie: formData.superficie,
 		tipo: formData.tipo,
@@ -60,7 +76,9 @@ export default function usePistasPage(): UsePistasPageResult {
 	const onAddPista = () => {
 		openPopup({
 			title: 'Nueva Pista',
-			children: <PistaForm onSubmit={handleAddPista} />,
+			children: (
+				<PistaForm onSubmit={handleAddPista} clubs={clubesData ?? []} />
+			),
 		});
 	};
 
@@ -73,6 +91,7 @@ export default function usePistasPage(): UsePistasPageResult {
 			children: (
 				<PistaForm
 					initialData={{
+						id_club: pista.id_club,
 						nombre: pista.nombre,
 						superficie: pista.superficie,
 						tipo: pista.tipo,
@@ -80,6 +99,7 @@ export default function usePistasPage(): UsePistasPageResult {
 					onSubmit={async (formData: PistaFormData) =>
 						handleEditPista(pistaId, formData)
 					}
+					clubs={clubesData ?? []}
 				/>
 			),
 		});
@@ -120,10 +140,11 @@ export default function usePistasPage(): UsePistasPageResult {
 
 	return {
 		pistas: data ?? [],
-		loading,
+		loading: loading || clubesLoading,
 		error,
 		onAddPista,
 		onEditPista,
 		onDeletePista,
+		getClubLabel,
 	};
 }

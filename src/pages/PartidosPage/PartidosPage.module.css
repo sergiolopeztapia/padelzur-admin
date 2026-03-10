@@ -41,6 +41,9 @@
 }
 
 .clubCard {
+	width: 100%;
+	max-width: 420px;
+	justify-self: center;
 	padding: 18px;
 	border-radius: 12px;
 	transition:
