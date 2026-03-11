@@ -1,0 +1,220 @@
+.root {
+	width: min(550px, 100%);
+	margin: 0 auto;
+	background: #0b1631;
+	border-radius: 20px;
+	overflow: hidden;
+	position: relative;
+	font-family:
+		Inter,
+		system-ui,
+		-apple-system,
+		Segoe UI,
+		Roboto,
+		Arial,
+		sans-serif;
+}
+
+.exportButton {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	z-index: 3;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	background: rgba(11, 22, 49, 0.75);
+	color: #f9fafb;
+	padding: 8px 12px;
+	border-radius: 10px;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.3px;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition:
+		transform 0.15s ease,
+		background-color 0.15s ease,
+		opacity 0.15s ease;
+}
+
+.exportButton:hover:not(:disabled) {
+	transform: translateY(-1px);
+	background: rgba(11, 22, 49, 0.9);
+}
+
+.exportButton:disabled {
+	opacity: 0.65;
+	cursor: not-allowed;
+}
+
+/* HERO */
+.hero {
+	height: 430px;
+	background-size: 112%;
+	background-position: center 22%;
+	position: relative;
+	z-index: 1;
+}
+.heroShade {
+	position: absolute;
+	inset: 0;
+	background:
+		linear-gradient(
+			to bottom,
+			rgba(11, 22, 49, 0) 54%,
+			rgba(11, 22, 49, 0.82) 82%,
+			#0b1631 100%
+		),
+		radial-gradient(
+			1200px 520px at 75% 0%,
+			rgba(255, 255, 255, 0.06),
+			rgba(0, 0, 0, 0.68)
+		);
+}
+
+/* BOARD */
+.board {
+	width: calc(100% - 72px);
+	margin: -82px auto 0;
+	border-radius: 18px;
+	overflow: hidden;
+	background: #f3f4f6;
+	box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
+	position: relative;
+	z-index: 2;
+}
+
+/* LIME BAR */
+.bar {
+	background: #c7d51b;
+	color: #0b1631;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 18px 22px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+.barLeft {
+	font-size: 30px;
+	font-weight: 900;
+}
+.barRight {
+	font-size: 20px;
+	font-weight: 700;
+	opacity: 0.9;
+}
+
+/* ROWS */
+.rows {
+	padding: 18px 22px 12px;
+	background: #f3f4f6;
+}
+.row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 0;
+}
+
+.left {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-width: 0;
+}
+
+.winnerBadge {
+	width: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.trophyImage {
+	width: 50px;
+	height: 50px;
+	object-fit: contain;
+}
+
+.names {
+	min-width: 0;
+}
+.name {
+	color: #0b1631;
+	font-size: 24px;
+	line-height: 1.08;
+	font-weight: 900;
+	letter-spacing: 0.2px;
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.nameMuted {
+	font-weight: 650;
+	opacity: 0.45;
+}
+
+.right {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.score {
+	display: flex;
+	align-items: baseline;
+	gap: 14px;
+	font-size: 66px;
+	color: #0b1631;
+	white-space: nowrap;
+}
+
+.scoreStrong {
+	font-weight: 900;
+	opacity: 1;
+}
+
+.scoreFaded {
+	font-weight: 650;
+	opacity: 0.45;
+}
+
+.divider {
+	height: 2px;
+	background: rgba(12, 28, 58, 0.18);
+	margin: 10px 0 6px;
+}
+
+/* BRAND */
+.brand {
+	width: calc(100% - 72px);
+	margin: 18px auto 26px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	color: #e5e7eb;
+}
+.brandMark {
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	background: radial-gradient(circle at 30% 30%, #d6e31f, #7fa20a);
+	position: relative;
+}
+.brandMark::after {
+	content: '';
+	position: absolute;
+	inset: 12px 10px 12px 18px;
+	border: 3px dotted rgba(11, 22, 49, 0.7);
+	border-radius: 999px;
+}
+.brandText {
+	font-weight: 900;
+	letter-spacing: 2px;
+	line-height: 1.05;
+	text-transform: uppercase;
+}

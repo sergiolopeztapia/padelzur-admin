@@ -4,11 +4,12 @@ import ClubsPage from './pages/ClubsPage/ClubsPage';
 import JugadoresPage from './pages/JugadoresPage/JugadoresPage';
 import PistasPage from './pages/PistasPage/PistasPage';
 import PartidosPage from './pages/PartidosPage/PartidosPage';
-import LoginPage from './pages/LoginPage/LoginPage';
+// import LoginPage from './pages/LoginPage/LoginPage';
 import useSessionStore from '@/stores/useSessionStore';
 import Popup from '@/components/Popup/Popup';
 import Header from '@/features/Header/Header';
 import type { HeaderSection } from '@/features/Header/Header.types';
+import { ResultadoView } from './views/Resultado/ResultadoView';
 
 function App() {
 	const session = useSessionStore((state) => state.session);
@@ -25,7 +26,24 @@ function App() {
 					{section === 'partidos' && <PartidosPage />}
 				</>
 			) : (
-				<LoginPage />
+				// <LoginPage />
+				<div className='resultadoCenter'>
+					<ResultadoView
+						eventLeft='PadelBrand'
+						roundRight='17 Feb 2026'
+						photoUrl='/equipoA.jpg'
+						teamA={{
+							player1: 'Berguices',
+							player2: 'Jorge Sanchez',
+							score: '4 6',
+						}}
+						teamB={{
+							player1: 'Tapia',
+							player2: 'Thanos',
+							score: '6 7',
+						}}
+					/>
+				</div>
 			)}
 			<Toaster />
 			<Popup />

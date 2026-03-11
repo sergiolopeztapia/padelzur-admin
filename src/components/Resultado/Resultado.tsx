@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button/Button';
 import InputField from '@/components/InputField/InputField';
-import type { PartidoResultadoSetField } from '../../hooks/usePartidosPage.types';
+import type { PartidoResultadoSetField } from '../../pages/PartidosPage/hooks/usePartidosPage.types';
 import styles from './Resultado.module.css';
 import type { ResultadoProps } from './Resultado.types';
 

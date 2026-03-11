@@ -1,7 +1,7 @@
 import type {
 	PartidoResultadoDraft,
 	PartidoResultado,
-} from '../../hooks/usePartidosPage.types';
+} from '../../pages/PartidosPage/hooks/usePartidosPage.types';
 
 export type ResultadoProps = Readonly<{
 	pareja1Label: string;

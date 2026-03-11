@@ -1,0 +1,65 @@
+.card {
+	width: 100%;
+	max-width: 420px;
+	justify-self: center;
+	padding: 18px;
+	border-radius: 12px;
+	transition:
+		transform 0.24s cubic-bezier(0.22, 0.9, 0.2, 1),
+		box-shadow 0.24s;
+	position: relative;
+	overflow: hidden;
+	background: var(--card-bg);
+	border: 1px solid var(--border);
+}
+
+.card::after {
+	display: none;
+}
+
+.card:hover {
+	transform: none;
+	box-shadow: none;
+}
+
+.info {
+	z-index: 1;
+	position: relative;
+	margin-bottom: 12px;
+}
+
+.name {
+	font-size: 1.12rem;
+	margin: 0 0 12px 0;
+	color: var(--text-primary);
+	font-weight: 600;
+}
+
+.meta {
+	font-size: 0.95rem;
+	color: var(--text-secondary);
+	margin: 6px 0;
+}
+
+.idBadge {
+	display: inline-block;
+	background: var(--bg-primary);
+	padding: 6px 10px;
+	border-radius: 6px;
+	font-size: 0.8rem;
+	color: var(--text-secondary);
+	border: 1px solid var(--border);
+	margin-top: 8px;
+}
+
+.actions {
+	display: flex;
+	gap: 8px;
+	z-index: 1;
+	position: relative;
+}
+
+.actions button {
+	flex: 1;
+	min-width: 100px;
+}
