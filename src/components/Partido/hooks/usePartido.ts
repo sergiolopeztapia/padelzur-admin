@@ -14,6 +14,13 @@ const formatFecha = (fecha?: string | null): string => {
 	}).format(date);
 };
 
+const normalizeText = (value: string): string =>
+	value
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.trim();
+
 export default function usePartido({
 	partido,
 	getJugadorName,
@@ -46,6 +53,11 @@ export default function usePartido({
 	const estadoLabel = useMemo(
 		() => getEstadoLabel(partido.id_estado),
 		[getEstadoLabel, partido.id_estado],
+	);
+
+	const isFinalizado = useMemo(
+		() => normalizeText(estadoLabel).includes('finalizado'),
+		[estadoLabel],
 	);
 
 	const fechaLabel = useMemo(() => formatFecha(partido.fecha), [partido.fecha]);
@@ -82,6 +94,6 @@ export default function usePartido({
 		handleSaveResultado,
 		handleEdit,
 		handleDelete,
-		disabled: partidoId == null,
+		disabled: partidoId == null || isFinalizado,
 	};
 }

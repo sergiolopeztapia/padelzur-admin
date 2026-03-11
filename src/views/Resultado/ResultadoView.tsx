@@ -1,6 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas-pro';
+import { Menu } from 'lucide-react';
 import styles from './ResultadoView.module.css';
+
+type ExportAction = 'download' | 'copy';
 
 export type TeamRow = {
 	player1: string;
@@ -10,7 +13,9 @@ export type TeamRow = {
 
 export type ResultadoViewProps = {
 	eventLeft: string; // "GIJÓN P2"
+	eventLeftNote?: string;
 	roundRight: string; // "DIECISEISAVOS/R32"
+	roundRightNote?: string;
 	teamA: TeamRow;
 	teamB: TeamRow;
 	photoUrl?: string; // legacy, ya no se usa en esta vista
@@ -27,24 +32,47 @@ const PLAYER_IMAGES = [
 
 export function ResultadoView({
 	eventLeft,
+	eventLeftNote = '',
 	roundRight,
+	roundRightNote = '',
 	teamA,
 	teamB,
 	brandTop = 'PADELZUR',
 	brandBottom = '',
 }: ResultadoViewProps) {
 	const captureRef = useRef<HTMLDivElement>(null);
-	const [exporting, setExporting] = useState(false);
+	const menuRef = useRef<HTMLDivElement>(null);
+	const [busyAction, setBusyAction] = useState<ExportAction | null>(null);
+	const [menuOpen, setMenuOpen] = useState(false);
 	const losingTeam = getLosingTeam(teamA.score, teamB.score);
-	const brandLabel = `${brandTop}${brandBottom}`.trim();
+	void brandTop;
+	void brandBottom;
+	const isBusy = busyAction != null;
 
-	const handleExportJpg = async () => {
-		if (exporting) return;
+	useEffect(() => {
+		if (!menuOpen) {
+			return;
+		}
 
+		const handlePointerDown = (event: MouseEvent) => {
+			if (!menuRef.current?.contains(event.target as Node)) {
+				setMenuOpen(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handlePointerDown);
+
+		return () => {
+			document.removeEventListener('mousedown', handlePointerDown);
+		};
+	}, [menuOpen]);
+
+	const renderCanvasFromView = async (): Promise<HTMLCanvasElement> => {
 		const captureTarget = captureRef.current;
-		if (!captureTarget) return;
 
-		setExporting(true);
+		if (!captureTarget) {
+			throw new Error('No se encontro el contenido para exportar.');
+		}
 
 		const cloneContainer = document.createElement('div');
 		const cloneTarget = captureTarget.cloneNode(true) as HTMLDivElement;
@@ -74,6 +102,21 @@ export function ResultadoView({
 				foreignObjectRendering: false,
 			});
 
+			return canvas;
+		} finally {
+			cloneContainer.remove();
+		}
+	};
+
+	const handleExportJpg = async () => {
+		if (isBusy) return;
+		setMenuOpen(false);
+
+		setBusyAction('download');
+
+		try {
+			const canvas = await renderCanvasFromView();
+
 			const dataUrl = canvas.toDataURL('image/jpeg', 1);
 			if (!dataUrl || dataUrl === 'data:,') {
 				throw new Error('No se pudo generar el archivo JPG.');
@@ -92,21 +135,81 @@ export function ResultadoView({
 				'No se pudo exportar la imagen JPG del resultado. Revisa la consola para mas detalle.',
 			);
 		} finally {
-			cloneContainer.remove();
-			setExporting(false);
+			setBusyAction(null);
+		}
+	};
+
+	const handleCopyImage = async () => {
+		if (isBusy) return;
+		setMenuOpen(false);
+
+		setBusyAction('copy');
+
+		try {
+			if (!navigator.clipboard?.write || typeof ClipboardItem === 'undefined') {
+				throw new Error(
+					'El portapapeles no soporta imagenes en este navegador.',
+				);
+			}
+
+			const canvas = await renderCanvasFromView();
+			const blob = await canvasToBlob(canvas, 'image/png', 1);
+
+			await navigator.clipboard.write([
+				new ClipboardItem({
+					'image/png': blob,
+				}),
+			]);
+
+			window.alert('Imagen copiada al portapapeles.');
+		} catch (error) {
+			console.error('Error copiando ResultadoView al portapapeles', error);
+			window.alert(
+				'No se pudo copiar la imagen al portapapeles. Revisa la consola para mas detalle.',
+			);
+		} finally {
+			setBusyAction(null);
 		}
 	};
 
 	return (
 		<div className={styles.root} ref={captureRef}>
-			<button
-				type='button'
-				className={styles.exportButton}
-				onClick={handleExportJpg}
-				disabled={exporting}
-				data-export-ignore='true'>
-				{exporting ? 'Exportando...' : 'Exportar JPG'}
-			</button>
+			<div
+				className={styles.exportMenu}
+				data-export-ignore='true'
+				ref={menuRef}>
+				<button
+					type='button'
+					className={styles.menuButton}
+					onClick={() => setMenuOpen((prev) => !prev)}
+					disabled={isBusy}
+					aria-label='Opciones de exportacion'
+					aria-haspopup='menu'
+					aria-expanded={menuOpen}>
+					<Menu size={18} />
+				</button>
+
+				{menuOpen ? (
+					<div className={styles.exportDropdown} role='menu'>
+						<button
+							type='button'
+							className={styles.exportButton}
+							onClick={handleExportJpg}
+							disabled={isBusy}
+							role='menuitem'>
+							{busyAction === 'download' ? 'Exportando...' : 'Descargar JPG'}
+						</button>
+						<button
+							type='button'
+							className={`${styles.exportButton} ${styles.exportButtonSecondary}`}
+							onClick={handleCopyImage}
+							disabled={isBusy}
+							role='menuitem'>
+							{busyAction === 'copy' ? 'Copiando...' : 'Copiar imagen'}
+						</button>
+					</div>
+				) : null}
+			</div>
 
 			<div className={styles.playersStrip} aria-label='players strip'>
 				{PLAYER_IMAGES.map((image, index) => (
@@ -127,12 +230,25 @@ export function ResultadoView({
 						/>
 					</div>
 				))}
+				<div className={styles.vsBadge} aria-hidden>
+					<img src='/vs.png' alt='VS' className={styles.vsImage} />
+				</div>
 			</div>
 
 			<div className={styles.board}>
 				<div className={styles.bar}>
-					<div className={styles.barLeft}>{eventLeft}</div>
-					<div className={styles.barRight}>{roundRight}</div>
+					<div className={styles.barLeftBlock}>
+						<div className={styles.barLeft}>{eventLeft}</div>
+						{eventLeftNote ? (
+							<div className={styles.barLeftNote}>{eventLeftNote}</div>
+						) : null}
+					</div>
+					<div className={styles.barRightBlock}>
+						<div className={styles.barRight}>{roundRight}</div>
+						{roundRightNote ? (
+							<div className={styles.barRightNote}>{roundRightNote}</div>
+						) : null}
+					</div>
 				</div>
 
 				<div className={styles.rows}>
@@ -150,11 +266,37 @@ export function ResultadoView({
 				</div>
 			</div>
 
-			<div className={styles.brand}>
-				<div className={styles.brandText}>{brandLabel}</div>
-			</div>
+			{/* <div className={styles.brand}>
+				<span className={styles.brandLabel}>Patrocinado por:</span>
+				<img
+					src='/tienda_padel_point.jpg'
+					alt='Tienda Padel Point'
+					className={styles.brandLogo}
+				/>
+				<img
+					src='/linea_bella.jpg'
+					alt='Clinica de estética Linea Bella'
+					className={styles.brandLogo}
+				/>
+			</div> */}
 		</div>
 	);
+}
+
+async function canvasToBlob(
+	canvas: HTMLCanvasElement,
+	type: string,
+	quality?: number,
+): Promise<Blob> {
+	const blob = await new Promise<Blob | null>((resolve) => {
+		canvas.toBlob(resolve, type, quality);
+	});
+
+	if (!blob) {
+		throw new Error('No se pudo generar la imagen para copiar.');
+	}
+
+	return blob;
 }
 
 function Row({
