@@ -13,23 +13,30 @@ export type ResultadoViewProps = {
 	roundRight: string; // "DIECISEISAVOS/R32"
 	teamA: TeamRow;
 	teamB: TeamRow;
-	photoUrl: string; // fondo superior
+	photoUrl?: string; // legacy, ya no se usa en esta vista
 	brandTop?: string; // "PADEL"
-	brandBottom?: string; // "ADDICT"
+	brandBottom?: string; // "ZUR"
 };
+
+const PLAYER_IMAGES = [
+	{ src: '/Foto1.jpg', fallbackSrc: '/Foto1.png' },
+	{ src: '/Foto2.jpg', fallbackSrc: '/Foto2.png' },
+	{ src: '/Foto3.jpg', fallbackSrc: '/Foto3.png' },
+	{ src: '/Foto4.jpg', fallbackSrc: '/Foto4.png' },
+];
 
 export function ResultadoView({
 	eventLeft,
 	roundRight,
 	teamA,
 	teamB,
-	photoUrl,
-	brandTop = 'PADEL',
-	brandBottom = 'ZUR',
+	brandTop = 'PADELZUR',
+	brandBottom = '',
 }: ResultadoViewProps) {
 	const captureRef = useRef<HTMLDivElement>(null);
 	const [exporting, setExporting] = useState(false);
 	const losingTeam = getLosingTeam(teamA.score, teamB.score);
+	const brandLabel = `${brandTop}${brandBottom}`.trim();
 
 	const handleExportJpg = async () => {
 		if (exporting) return;
@@ -101,11 +108,25 @@ export function ResultadoView({
 				{exporting ? 'Exportando...' : 'Exportar JPG'}
 			</button>
 
-			<div
-				className={styles.hero}
-				style={{ backgroundImage: `url(${photoUrl})` }}
-				aria-label='match photo'>
-				<div className={styles.heroShade} />
+			<div className={styles.playersStrip} aria-label='players strip'>
+				{PLAYER_IMAGES.map((image, index) => (
+					<div className={styles.playerSlot} key={`player-${index + 1}`}>
+						<img
+							src={image.src}
+							alt={`Foto jugador ${index + 1}`}
+							className={styles.playerSilhouette}
+							onError={(event) => {
+								const target = event.currentTarget;
+								if (target.src.endsWith(image.fallbackSrc)) {
+									target.src = '/player-silhouette.svg';
+									return;
+								}
+
+								target.src = image.fallbackSrc;
+							}}
+						/>
+					</div>
+				))}
 			</div>
 
 			<div className={styles.board}>
@@ -130,11 +151,7 @@ export function ResultadoView({
 			</div>
 
 			<div className={styles.brand}>
-				<div className={styles.brandMark} aria-hidden />
-				<div className={styles.brandText}>
-					<div>{brandTop}</div>
-					<div>{brandBottom}</div>
-				</div>
+				<div className={styles.brandText}>{brandLabel}</div>
 			</div>
 		</div>
 	);

@@ -1,7 +1,10 @@
 .root {
+	--component-bg: #0b1631;
 	width: min(550px, 100%);
 	margin: 0 auto;
-	background: #0b1631;
+	background:
+		linear-gradient(rgba(11, 22, 49, 0.58), rgba(11, 22, 49, 0.58)),
+		url('/montepalma.jpg') center / cover no-repeat;
 	border-radius: 20px;
 	overflow: hidden;
 	position: relative;
@@ -13,6 +16,7 @@
 		Roboto,
 		Arial,
 		sans-serif;
+	padding: 4rem 1.4rem 0 1.4rem;
 }
 
 .exportButton {
@@ -46,35 +50,9 @@
 	cursor: not-allowed;
 }
 
-/* HERO */
-.hero {
-	height: 430px;
-	background-size: 112%;
-	background-position: center 22%;
-	position: relative;
-	z-index: 1;
-}
-.heroShade {
-	position: absolute;
-	inset: 0;
-	background:
-		linear-gradient(
-			to bottom,
-			rgba(11, 22, 49, 0) 54%,
-			rgba(11, 22, 49, 0.82) 82%,
-			#0b1631 100%
-		),
-		radial-gradient(
-			1200px 520px at 75% 0%,
-			rgba(255, 255, 255, 0.06),
-			rgba(0, 0, 0, 0.68)
-		);
-}
-
 /* BOARD */
 .board {
-	width: calc(100% - 72px);
-	margin: -82px auto 0;
+	margin: 0 auto;
 	border-radius: 18px;
 	overflow: hidden;
 	background: #f3f4f6;
@@ -83,8 +61,60 @@
 	z-index: 2;
 }
 
+.playersStrip {
+	width: calc(100% - 50px);
+	margin: 92px auto 0;
+	padding-inline: 6px;
+	display: flex;
+	align-items: flex-end;
+	gap: 6px;
+}
+
+.playerSlot {
+	flex: 0 0 calc((100% - 18px) / 4);
+	height: 142px;
+	border-radius: 12px;
+	background: transparent;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	overflow: visible;
+	position: relative;
+}
+
+.playerSlot:nth-child(2) {
+	margin-left: -22px;
+	margin-right: auto;
+	z-index: 2;
+}
+
+.playerSlot:nth-child(1) {
+	z-index: 3;
+}
+
+.playerSlot:nth-child(4) {
+	margin-left: -22px;
+	z-index: 2;
+}
+
+.playerSilhouette {
+	width: 86%;
+	height: 100%;
+	object-fit: contain;
+	object-position: bottom;
+	opacity: 0.95;
+	--mirror-x: 1;
+	transform: scaleX(var(--mirror-x)) scale(1.87);
+	transform-origin: bottom center;
+}
+
+.playerSlot:nth-child(-n + 2) .playerSilhouette {
+	--mirror-x: -1;
+}
+
 /* LIME BAR */
 .bar {
+	margin: 0;
 	background: #c7d51b;
 	color: #0b1631;
 	display: flex;
@@ -190,31 +220,13 @@
 
 /* BRAND */
 .brand {
-	width: calc(100% - 72px);
-	margin: 18px auto 26px;
+	padding: 2rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 14px;
-	color: #e5e7eb;
-}
-.brandMark {
-	width: 44px;
-	height: 44px;
-	border-radius: 999px;
-	background: radial-gradient(circle at 30% 30%, #d6e31f, #7fa20a);
-	position: relative;
-}
-.brandMark::after {
-	content: '';
-	position: absolute;
-	inset: 12px 10px 12px 18px;
-	border: 3px dotted rgba(11, 22, 49, 0.7);
-	border-radius: 999px;
+	color: #ffffff;
 }
 .brandText {
-	font-weight: 900;
-	letter-spacing: 2px;
-	line-height: 1.05;
-	text-transform: uppercase;
+	font-size: 1rem;
+	font-weight: 600;
 }

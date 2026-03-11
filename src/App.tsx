@@ -29,18 +29,18 @@ function App() {
 				// <LoginPage />
 				<div className='resultadoCenter'>
 					<ResultadoView
-						eventLeft='PadelBrand'
-						roundRight='17 Feb 2026'
+						eventLeft='Montepalma'
+						roundRight='3 Mar 2026'
 						photoUrl='/equipoA.jpg'
 						teamA={{
-							player1: 'Berguices',
-							player2: 'Jorge Sanchez',
-							score: '4 6',
-						}}
-						teamB={{
 							player1: 'Tapia',
 							player2: 'Thanos',
-							score: '6 7',
+							score: '6 3 6',
+						}}
+						teamB={{
+							player1: 'Berguices',
+							player2: 'Baron',
+							score: '4 6 5',
 						}}
 					/>
 				</div>
