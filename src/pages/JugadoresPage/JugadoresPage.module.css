@@ -9,7 +9,7 @@
 }
 
 .dashboardMain {
-	width: min(1200px, 100%);
+	width: min(var(--page-max-width, 1200px), 100%);
 	margin: 0 auto;
 	padding: 24px 24px 32px;
 	display: block;
@@ -42,16 +42,16 @@
 
 .clubsGrid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-	gap: 20px;
+	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+	gap: 16px;
 	margin-bottom: 28px;
 }
 
 .clubCard {
 	width: 100%;
-	max-width: 420px;
+	max-width: 192px;
 	justify-self: center;
-	padding: 18px;
+	padding: 10px;
 	border-radius: 12px;
 	transition:
 		transform 0.24s cubic-bezier(0.22, 0.9, 0.2, 1),
@@ -69,6 +69,26 @@
 .clubCard:hover {
 	transform: none;
 	box-shadow: none;
+}
+
+.clubAvatar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.clubAvatarImg {
+	width: 100%;
+	height: 128px;
+	border-radius: 1rem;
+	object-fit: cover;
+	object-position: top center;
+	border: 2px solid var(--border);
+}
+
+.clubAvatarImgDefault {
+	filter: grayscale(100%) opacity(1);
 }
 
 .clubInfo {
@@ -95,26 +115,40 @@
 	margin: 6px 0;
 }
 
-.clubId {
-	display: inline-block;
-	background: var(--bg-primary);
-	padding: 6px 10px;
-	border-radius: 6px;
-	font-size: 0.8rem;
-	color: var(--text-secondary);
-	border: 1px solid var(--border);
-}
-
-.clubActions {
+.playerControlsRow {
 	display: flex;
-	gap: 8px;
-	z-index: 1;
-	position: relative;
+	align-items: center;
+	gap: 0.45rem;
+	flex-wrap: nowrap;
+	margin-top: 10px;
+	margin-bottom: 8px;
 }
 
-.clubActions button {
-	flex: 1;
-	min-width: 100px;
+.playerIdBadge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 7px 10px;
+	border-radius: 0.2rem;
+	font-size: 0.8rem;
+	font-weight: 700;
+	line-height: 1;
+	background: var(--bg-secondary);
+	color: #0f2f10;
+	border: none;
+	white-space: nowrap;
+}
+
+.toggleDetailsButton,
+.iconActionButton {
+	margin: 0;
+}
+
+.iconActionButton {
+	min-width: 32px;
+	width: 32px;
+	height: 32px;
+	padding: 6px !important;
 }
 
 .emptyState {
@@ -180,12 +214,12 @@
 	}
 
 	.clubsGrid {
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 		gap: 16px;
 	}
 
 	.clubCard {
-		padding: 16px;
+		padding: 9px;
 	}
 }
 
@@ -216,12 +250,11 @@
 	}
 
 	.clubsGrid {
-		grid-template-columns: 1fr;
 		gap: 14px;
 	}
 
 	.clubCard {
-		padding: 14px;
+		padding: 8px;
 	}
 
 	.clubName {
@@ -230,15 +263,6 @@
 
 	.clubCity {
 		font-size: 0.9rem;
-	}
-
-	.clubActions {
-		flex-direction: column;
-		gap: 6px;
-	}
-
-	.clubActions button {
-		width: 100%;
 	}
 
 	.stats {
@@ -263,7 +287,7 @@
 	}
 
 	.clubCard {
-		padding: 12px;
+		padding: 8px;
 	}
 
 	.clubName {

@@ -5,12 +5,13 @@ import Admin from './features/Admin/Admin';
 import Popup from '@/components/Popup/Popup';
 import useSessionStore from '@/stores/useSessionStore';
 import LoginPage from './pages/LoginPage/LoginPage';
+import styles from './App.module.css';
 
 function App() {
 	const session = useSessionStore((state) => state.session);
 
 	return (
-		<>
+		<div className={styles.appLayout}>
 			<Routes>
 				<Route
 					path='/'
@@ -29,7 +30,7 @@ function App() {
 			</Routes>
 			<Toaster />
 			<Popup />
-		</>
+		</div>
 	);
 }
 
@@ -39,19 +40,19 @@ function ResultadoPreview() {
 		<div className='resultadoCenter'>
 			<ResultadoView
 				eventLeft='Padelbrand'
-				eventLeftNote='Mixing Gastronomico'
-				roundRight='13 DIC 2026'
-				roundRightNote='20:30h'
+				eventLeftNote='Partido de exhibición'
+				roundRight='12 Mar 2026'
+				roundRightNote='9:30h'
 				photoUrl='/montepalma.png'
 				teamA={{
-					player1: 'Tapia',
-					player2: 'Thanos',
-					score: '6 3 6',
+					player1: 'Antonio Valverde',
+					player2: 'Jaku',
+					score: '6 6',
 				}}
 				teamB={{
-					player1: 'Berguices',
+					player1: 'Rafa España',
 					player2: 'Baron',
-					score: '4 6 5',
+					score: '4 3',
 				}}
 			/>
 		</div>

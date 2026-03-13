@@ -9,7 +9,7 @@
 }
 
 .dashboardMain {
-	width: min(1200px, 100%);
+	width: min(var(--page-max-width, 1200px), 100%);
 	margin: 0 auto;
 	padding: 24px 24px 32px;
 	display: block;

@@ -7,7 +7,7 @@ import PistasPage from '../../pages/PistasPage/PistasPage';
 import PartidosPage from '../../pages/PartidosPage/PartidosPage';
 
 function Admin() {
-	const [section, setSection] = useState<HeaderSection>('clubs');
+	const [section, setSection] = useState<HeaderSection>('jugadores');
 
 	return (
 		<>

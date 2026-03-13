@@ -6,6 +6,16 @@ import useJugadoresPage from './hooks/useJugadoresPage';
 
 function JugadoresPage() {
 	const [searchTerm, setSearchTerm] = useState('');
+	const [expandedPlayerIds, setExpandedPlayerIds] = useState<
+		Record<string, boolean>
+	>({});
+
+	const togglePlayerDetails = (jugadorId: string) => {
+		setExpandedPlayerIds((prev) => ({
+			...prev,
+			[jugadorId]: !prev[jugadorId],
+		}));
+	};
 
 	const {
 		jugadores,
@@ -23,10 +33,15 @@ function JugadoresPage() {
 				.replace(/[\u0300-\u036f]/g, '')
 				.toLowerCase();
 
-		const query = normalizeValue(searchTerm.trim());
-		if (!query) return jugadores;
+		const sortByApodo = (items: typeof jugadores) =>
+			[...items].sort((a, b) =>
+				a.apodo.localeCompare(b.apodo, 'es', { sensitivity: 'base' }),
+			);
 
-		return jugadores.filter((jugador) => {
+		const query = normalizeValue(searchTerm.trim());
+		if (!query) return sortByApodo(jugadores);
+
+		const filtered = jugadores.filter((jugador) => {
 			const apellidos =
 				`${jugador.apellido1} ${jugador.apellido2 ?? ''}`.trim();
 
@@ -38,6 +53,8 @@ function JugadoresPage() {
 				apellidos,
 			].some((value) => normalizeValue(value).includes(query));
 		});
+
+		return sortByApodo(filtered);
 	}, [jugadores, searchTerm]);
 
 	if (loading || error) {
@@ -72,46 +89,101 @@ function JugadoresPage() {
 
 					<div className={styles.clubsGrid}>
 						{filteredJugadores.length > 0 ? (
-							filteredJugadores.map((jugador) => (
-								<div key={jugador.id} className={styles.clubCard}>
-									<div className={styles.clubInfo}>
-										<h3 className={styles.clubName}>
-											<span className={styles.apodoHighlight}>
-												{jugador.apodo}
-											</span>
-										</h3>
-										<p className={styles.clubCity}>Nombre: {jugador.nombre}</p>
-										<p className={styles.clubCity}>
-											{jugador.apellido1}
-											{jugador.apellido2 ? ` ${jugador.apellido2}` : ''}
-										</p>
-										<p className={styles.clubCity}>
-											Telefono: {jugador.telefono}
-										</p>
-										<p className={styles.clubCity}>
-											Nacimiento: {jugador.fecha_nac}
-										</p>
-										<p className={styles.clubCity}>
-											Lado: {jugador.lado} | Sexo: {jugador.sexo}
-										</p>
-										<span className={styles.clubId}>ID: {jugador.id}</span>
+							filteredJugadores.map((jugador) => {
+								const playerKey =
+									jugador.id != null
+										? String(jugador.id)
+										: `no-id-${jugador.apodo}-${jugador.nombre}`;
+								const imageId = jugador.id ?? 0;
+								const isDetailsVisible = !!expandedPlayerIds[playerKey];
+
+								return (
+									<div key={playerKey} className={styles.clubCard}>
+										<div className={styles.clubAvatar}>
+											<img
+												src={`/jugador_${imageId}.png`}
+												alt={jugador.apodo}
+												className={styles.clubAvatarImg}
+												onError={(e) => {
+													const img = e.currentTarget as HTMLImageElement;
+													img.src = '/jugador_0.png';
+													img.classList.add(styles.clubAvatarImgDefault);
+													img.onerror = null;
+												}}
+											/>
+										</div>
+										<div className={styles.clubInfo}>
+											<h3 className={styles.clubName}>
+												<span className={styles.apodoHighlight}>
+													{jugador.apodo}
+												</span>
+											</h3>
+											<div className={styles.playerControlsRow}>
+												<span className={styles.playerIdBadge}>
+													ID: {jugador.id ?? '-'}
+												</span>
+												<Button
+													variant='secondary'
+													size='sm'
+													iconName={isDetailsVisible ? 'EyeOff' : 'Eye'}
+													iconSize={16}
+													aria-label={
+														isDetailsVisible ? 'Ocultar datos' : 'Mostrar datos'
+													}
+													title={
+														isDetailsVisible ? 'Ocultar datos' : 'Mostrar datos'
+													}
+													className={`${styles.iconActionButton} ${styles.toggleDetailsButton}`}
+													onClick={() => togglePlayerDetails(playerKey)}
+													type='button'
+												/>
+												<Button
+													variant='edit'
+													size='sm'
+													iconName='Pencil'
+													iconSize={16}
+													aria-label='Editar jugador'
+													title='Editar jugador'
+													className={styles.iconActionButton}
+													onClick={() => onEditJugador(jugador)}
+													type='button'
+												/>
+												<Button
+													variant='danger'
+													size='sm'
+													iconName='Trash2'
+													iconSize={16}
+													aria-label='Eliminar jugador'
+													title='Eliminar jugador'
+													className={styles.iconActionButton}
+													onClick={() => onDeleteJugador(jugador)}
+													type='button'
+												/>
+											</div>
+											{isDetailsVisible && (
+												<>
+													<p className={styles.clubCity}>
+														Nombre: {jugador.nombre}
+													</p>
+													<p className={styles.clubCity}>
+														{jugador.apellido1}
+														{jugador.apellido2 ? ` ${jugador.apellido2}` : ''}
+													</p>
+													<p className={styles.clubCity}>
+														Telefono: {jugador.telefono}
+													</p>
+													<p className={styles.clubCity}>
+														Nacimiento: {jugador.fecha_nac}
+													</p>
+													<p className={styles.clubCity}>
+														Lado: {jugador.lado} | Sexo: {jugador.sexo}
+													</p>
+												</>
+											)}
+										</div>
 									</div>
-									<div className={styles.clubActions}>
-										<Button
-											variant='edit'
-											size='sm'
-											onClick={() => onEditJugador(jugador)}>
-											Editar
-										</Button>
-										<Button
-											variant='danger'
-											size='sm'
-											onClick={() => onDeleteJugador(jugador)}>
-											Eliminar
-										</Button>
-									</div>
-								</div>
-							))
+								);
+							})
 						) : (
 							<div className={styles.emptyState}>
 								<p>

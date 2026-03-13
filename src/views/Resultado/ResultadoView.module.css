@@ -1,6 +1,6 @@
 .root {
 	--component-bg: #2a0808;
-	width: min(550px, 100%);
+	width: min(580px, 100%);
 	margin: 0 auto;
 	background: url('/padelbrand.png') center / cover no-repeat;
 	border-radius: 0;
@@ -119,7 +119,7 @@
 }
 
 .playersStrip {
-	width: calc(100% - 50px);
+	width: calc(100% - 120px);
 	margin: 92px auto 0;
 	padding-inline: 6px;
 	display: flex;
@@ -177,7 +177,7 @@
 }
 
 .playerSilhouette {
-	width: 86%;
+	width: clamp(92px, 21vw, 112px);
 	height: 100%;
 	object-fit: contain;
 	object-position: bottom;
@@ -194,7 +194,7 @@
 /* LIME BAR */
 .bar {
 	margin: 0;
-	background: #8ec7e7;
+	background: #c3e46a;
 	color: #0b1631;
 	/* color: #fff; */
 	display: flex;

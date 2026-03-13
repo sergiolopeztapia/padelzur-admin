@@ -1,0 +1,4 @@
+.appLayout {
+	/* Single source of truth for page max width across admin pages */
+	--page-max-width: 100%;
+}

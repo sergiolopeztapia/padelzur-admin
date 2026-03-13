@@ -24,10 +24,10 @@ export type ResultadoViewProps = {
 };
 
 const PLAYER_IMAGES = [
-	{ src: '/Foto1.jpg', fallbackSrc: '/Foto1.png' },
-	{ src: '/Foto2.jpg', fallbackSrc: '/Foto2.png' },
-	{ src: '/Foto3.jpg', fallbackSrc: '/Foto3.png' },
-	{ src: '/Foto4.jpg', fallbackSrc: '/Foto4.png' },
+	{ src: '/AntonioValverde.png', fallbackSrc: '/Foto1.png' },
+	{ src: '/Jaku.png', fallbackSrc: '/Foto2.png' },
+	{ src: '/RafaEspana.png', fallbackSrc: '/Foto3.png' },
+	{ src: '/Baron.png', fallbackSrc: '/Foto4.png' },
 ];
 
 export function ResultadoView({
