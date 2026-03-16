@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas-pro';
 import { Menu } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 import styles from './ResultadoView.module.css';
 
 type ExportAction = 'download' | 'copy';
 
 export type TeamRow = {
-	player1: string;
-	player2: string;
+	player1: number; // id del jugador en la tabla jugadores
+	player2: number; // id del jugador en la tabla jugadores
 	score: string; // "4 6 6" (en la imagen se ve como 466)
 };
 
@@ -23,13 +24,6 @@ export type ResultadoViewProps = {
 	brandBottom?: string; // "ZUR"
 };
 
-const PLAYER_IMAGES = [
-	{ src: '/AntonioValverde.png', fallbackSrc: '/Foto1.png' },
-	{ src: '/Jaku.png', fallbackSrc: '/Foto2.png' },
-	{ src: '/RafaEspana.png', fallbackSrc: '/Foto3.png' },
-	{ src: '/Baron.png', fallbackSrc: '/Foto4.png' },
-];
-
 export function ResultadoView({
 	eventLeft,
 	eventLeftNote = '',
@@ -44,10 +38,30 @@ export function ResultadoView({
 	const menuRef = useRef<HTMLDivElement>(null);
 	const [busyAction, setBusyAction] = useState<ExportAction | null>(null);
 	const [menuOpen, setMenuOpen] = useState(false);
+	const [jugadoresMap, setJugadoresMap] = useState<Record<number, string>>({});
 	const losingTeam = getLosingTeam(teamA.score, teamB.score);
 	void brandTop;
 	void brandBottom;
 	const isBusy = busyAction != null;
+
+	useEffect(() => {
+		const ids = [teamA.player1, teamA.player2, teamB.player1, teamB.player2];
+
+		supabase
+			.from('jugadores')
+			.select('id, apodo')
+			.in('id', ids)
+			.then(({ data }) => {
+				if (!data) return;
+				const map: Record<number, string> = {};
+				for (const jugador of data) {
+					if (jugador.id != null) {
+						map[jugador.id as number] = jugador.apodo as string;
+					}
+				}
+				setJugadoresMap(map);
+			});
+	}, [teamA.player1, teamA.player2, teamB.player1, teamB.player2]);
 
 	useEffect(() => {
 		if (!menuOpen) {
@@ -212,24 +226,23 @@ export function ResultadoView({
 			</div>
 
 			<div className={styles.playersStrip} aria-label='players strip'>
-				{PLAYER_IMAGES.map((image, index) => (
-					<div className={styles.playerSlot} key={`player-${index + 1}`}>
-						<img
-							src={image.src}
-							alt={`Foto jugador ${index + 1}`}
-							className={styles.playerSilhouette}
-							onError={(event) => {
-								const target = event.currentTarget;
-								if (target.src.endsWith(image.fallbackSrc)) {
-									target.src = '/player-silhouette.svg';
-									return;
-								}
-
-								target.src = image.fallbackSrc;
-							}}
-						/>
-					</div>
-				))}
+				{[teamA.player1, teamA.player2, teamB.player1, teamB.player2].map(
+					(playerId, index) => (
+						<div
+							className={styles.playerSlot}
+							key={`player-${playerId}-${index}`}>
+							<img
+								src={`/jugador_${playerId}.png`}
+								alt={jugadoresMap[playerId] ?? `Jugador ${playerId}`}
+								className={styles.playerSilhouette}
+								onError={(event) => {
+									event.currentTarget.src = '/player-silhouette.svg';
+									event.currentTarget.onerror = null;
+								}}
+							/>
+						</div>
+					),
+				)}
 				<div className={styles.vsBadge} aria-hidden>
 					<img src='/vs.png' alt='VS' className={styles.vsImage} />
 				</div>
@@ -256,12 +269,14 @@ export function ResultadoView({
 						team={teamA}
 						muted={losingTeam === 'A'}
 						winner={losingTeam === 'B'}
+						jugadoresMap={jugadoresMap}
 					/>
 					<div className={styles.divider} />
 					<Row
 						team={teamB}
 						muted={losingTeam === 'B'}
 						winner={losingTeam === 'A'}
+						jugadoresMap={jugadoresMap}
 					/>
 				</div>
 			</div>
@@ -303,10 +318,12 @@ function Row({
 	team,
 	muted,
 	winner,
+	jugadoresMap,
 }: {
 	team: TeamRow;
 	muted?: boolean;
 	winner?: boolean;
+	jugadoresMap: Record<number, string>;
 }) {
 	const scoreParts = splitScore(team.score);
 
@@ -327,10 +344,10 @@ function Row({
 
 				<div className={styles.names}>
 					<div className={`${styles.name} ${muted ? styles.nameMuted : ''}`}>
-						{team.player1}
+						{jugadoresMap[team.player1] ?? `#${team.player1}`}
 					</div>
 					<div className={`${styles.name} ${muted ? styles.nameMuted : ''}`}>
-						{team.player2}
+						{jugadoresMap[team.player2] ?? `#${team.player2}`}
 					</div>
 				</div>
 			</div>
